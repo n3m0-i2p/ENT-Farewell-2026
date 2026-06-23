@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ENT '26 — Electronics Farewell 2026</title>
+  <meta name="description" content="Official farewell portal for BPI Electronics Technology, Session 2022-23. Register, pay, and celebrate.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { neon: '#00f0ff', 'neon-p': '#a855f7', 'neon-pk': '#ec4899', surface: '#0a0a18', 'surface-2': '#0f0f23' },
+          fontFamily: { display: ['Orbitron','sans-serif'], body: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#050510;color:#e2e8f0;overflow-x:hidden}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#050510}::-webkit-scrollbar-thumb{background:#1e293b;border-radius:3px}
+
+    .glass{background:rgba(255,255,255,0.03);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.06)}
+    .glass-solid{background:rgba(10,10,24,0.85);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,0.06)}
+
+    .btn-neon{background:linear-gradient(135deg,#00f0ff,#a855f7);color:#050510;font-weight:700;border-radius:12px;padding:14px 36px;cursor:pointer;border:none;font-size:.9rem;transition:all .3s ease;box-shadow:0 0 25px rgba(0,240,255,.25),0 0 50px rgba(0,240,255,.08);letter-spacing:.5px}
+    .btn-neon:hover{transform:translateY(-3px);box-shadow:0 0 35px rgba(0,240,255,.45),0 0 80px rgba(0,240,255,.15)}
+    .btn-neon:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+
+    .btn-outline{background:transparent;border:1px solid rgba(0,240,255,.3);color:#00f0ff;font-weight:600;border-radius:10px;padding:11px 28px;cursor:pointer;font-size:.85rem;transition:all .3s ease}
+    .btn-outline:hover{background:rgba(0,240,255,.08);border-color:#00f0ff;box-shadow:0 0 20px rgba(0,240,255,.15)}
+
+    .btn-ghost{background:transparent;border:none;color:#94a3b8;cursor:pointer;font-size:.85rem;padding:8px 16px;border-radius:8px;transition:all .2s}
+    .btn-ghost:hover{color:#e2e8f0;background:rgba(255,255,255,.05)}
+
+    .input-dark{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:13px 16px;color:#e2e8f0;font-size:.9rem;width:100%;transition:all .3s ease;outline:none;font-family:'Inter',sans-serif}
+    .input-dark:focus{border-color:#00f0ff;box-shadow:0 0 0 3px rgba(0,240,255,.1)}
+    .input-dark::placeholder{color:#475569}
+
+    .card-glow{transition:all .4s ease;border:1px solid rgba(255,255,255,.05)}
+    .card-glow:hover{border-color:rgba(0,240,255,.25);box-shadow:0 0 30px rgba(0,240,255,.06)}
+
+    .neon-text{text-shadow:0 0 10px rgba(0,240,255,.5),0 0 40px rgba(0,240,255,.2)}
+    .neon-text-p{text-shadow:0 0 10px rgba(168,85,247,.5),0 0 40px rgba(168,85,247,.2)}
+
+    .size-chip{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 20px;cursor:pointer;transition:all .25s ease;font-weight:600;color:#94a3b8;font-size:.85rem;text-align:center;min-width:60px}
+    .size-chip:hover{border-color:rgba(0,240,255,.3);color:#e2e8f0}
+    .size-chip.active{border-color:#00f0ff;background:rgba(0,240,255,.1);color:#00f0ff;box-shadow:0 0 15px rgba(0,240,255,.15)}
+
+    .shift-btn{padding:10px 24px;border-radius:10px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:#94a3b8;cursor:pointer;font-weight:600;font-size:.85rem;transition:all .25s}
+    .shift-btn.active{border-color:#a855f7;background:rgba(168,85,247,.12);color:#a855f7;box-shadow:0 0 15px rgba(168,85,247,.15)}
+
+    .step-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;border:2px solid rgba(255,255,255,.1);color:#475569;transition:all .4s ease;position:relative;z-index:2}
+    .step-dot.active{border-color:#00f0ff;background:rgba(0,240,255,.15);color:#00f0ff;box-shadow:0 0 15px rgba(0,240,255,.25)}
+    .step-dot.done{border-color:#10b981;background:rgba(16,185,129,.15);color:#10b981}
+    .step-line{height:2px;flex:1;background:rgba(255,255,255,.06);transition:background .4s}
+    .step-line.done{background:linear-gradient(90deg,#10b981,#00f0ff)}
+
+    .modal-overlay{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,2,8,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    .modal-overlay.open{display:flex}
+
+    .toast-item{padding:14px 20px;border-radius:12px;font-size:.85rem;font-weight:600;color:#e2e8f0;backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);animation:slideInRight .4s ease;display:flex;align-items:center;gap:10px;max-width:380px}
+    .toast-success{background:rgba(16,185,129,.15);border-color:rgba(16,185,129,.3)}
+    .toast-error{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.3)}
+    .toast-info{background:rgba(0,240,255,.1);border-color:rgba(0,240,255,.2)}
+
+    @keyframes slideInRight{from{transform:translateX(100px);opacity:0}to{transform:translateX(0);opacity:1}}
+    @keyframes fadeInUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+    @keyframes pulse-glow{0%,100%{box-shadow:0 0 25px rgba(0,240,255,.2)}50%{box-shadow:0 0 45px rgba(0,240,255,.4)}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    @keyframes gradient-move{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(0,240,255,.07) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(168,85,247,.07) 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(236,72,153,.04) 0%,transparent 50%),#050510}
+
+    .grid-overlay{position:absolute;inset:0;background-image:linear-gradient(rgba(0,240,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+
+    .spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.1);border-top-color:#00f0ff;border-radius:50%;animation:spin .8s linear infinite}
+
+    .tab-btn{padding:10px 20px;border-radius:8px;border:none;background:transparent;color:#64748b;cursor:pointer;font-weight:600;font-size:.82rem;transition:all .25s}
+    .tab-btn.active{background:rgba(0,240,255,.1);color:#00f0ff}
+    .tab-btn:hover{color:#e2e8f0}
+
+    .opinion-card{animation:fadeInUp .5s ease backwards}
+    .opinion-card:nth-child(2){animation-delay:.1s}.opinion-card:nth-child(3){animation-delay:.2s}.opinion-card:nth-child(4){animation-delay:.3s}
+
+    @media(max-width:768px){
+      .hero-title{font-size:3rem!important}
+      .countdown-grid{gap:10px!important}
+      .countdown-grid .cd-box{min-width:65px!important;padding:12px 8px!important}
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <!-- Toast Container -->
+  <div id="toast-box" class="fixed top-5 right-5 z-[9999] flex flex-col gap-3"></div>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="fixed top-0 w-full z-50 glass-solid">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#hero" class="font-display font-bold text-lg tracking-wider text-neon neon-text">ENT '26</a>
+      <div class="hidden md:flex items-center gap-1">
+        <a href="#hero" class="btn-ghost">Home</a>
+        <a href="#perks" class="btn-ghost">Perks</a>
+        <a href="#wall" class="btn-ghost">The Wall</a>
+        <a href="#register" class="btn-ghost">Register</a>
+        <button onclick="openAdmin()" class="btn-ghost flex items-center gap-1.5"><i data-lucide="terminal" class="w-4 h-4"></i>Console</button>
+      </div>
+      <div class="flex items-center gap-3">
+        <div id="nav-auth-area">
+          <button onclick="openAuthModal()" class="btn-outline text-sm py-2 px-5">Login</button>
+        </div>
+        <button class="md:hidden btn-ghost p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"><i data-lucide="menu" class="w-5 h-5"></i></button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden border-t border-white/5 px-6 py-4 flex flex-col gap-2">
+      <a href="#hero" class="btn-ghost text-left">Home</a><a href="#perks" class="btn-ghost text-left">Perks</a>
+      <a href="#wall" class="btn-ghost text-left">The Wall</a><a href="#register" class="btn-ghost text-left">Register</a>
+      <button onclick="openAdmin()" class="btn-ghost text-left flex items-center gap-1.5"><i data-lucide="terminal" class="w-4 h-4"></i>Console</button>
+    </div>
+  </nav>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center text-center px-6 overflow-hidden">
+    <div class="hero-bg"></div>
+    <div class="grid-overlay"></div>
+    <div class="relative z-10 max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-2 glass rounded-full px-5 py-2 mb-8 text-xs font-semibold tracking-widest text-slate-400 uppercase">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Electronics Technology • Session 2022-23
+      </div>
+      <h1 class="hero-title font-display font-black text-6xl md:text-8xl tracking-wider mb-4">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon via-neon-p to-neon-pk">ENT '26</span>
+      </h1>
+      <p class="font-display text-xl md:text-2xl tracking-[0.3em] text-slate-400 mb-3 font-medium">THE LAST MEET</p>
+      <p class="text-slate-500 mb-12 max-w-lg mx-auto leading-relaxed">A premium joint farewell assembled by the entire Electronics department. One last ride before we scatter across the universe.</p>
+
+      <!-- Countdown -->
+      <div class="countdown-grid flex justify-center gap-4 mb-12">
+        <div class="cd-box glass rounded-xl px-5 py-4 text-center min-w-[80px]">
+          <div id="cd-d" class="text-3xl font-display font-bold text-neon neon-text">00</div>
+          <div class="text-[10px] text-slate-500 uppercase tracking-widest mt-1.5 font-semibold">Days</div>
+        </div>
+        <div class="cd-box glass rounded-xl px-5 py-4 text-center min-w-[80px]">
+          <div id="cd-h" class="text-3xl font-display font-bold text-neon neon-text">00</div>
+          <div class="text-[10px] text-slate-500 uppercase tracking-widest mt-1.5 font-semibold">Hours</div>
+        </div>
+        <div class="cd-box glass rounded-xl px-5 py-4 text-center min-w-[80px]">
+          <div id="cd-m" class="text-3xl font-display font-bold text-neon neon-text">00</div>
+          <div class="text-[10px] text-slate-500 uppercase tracking-widest mt-1.5 font-semibold">Mins</div>
+        </div>
+        <div class="cd-box glass rounded-xl px-5 py-4 text-center min-w-[80px]">
+          <div id="cd-s" class="text-3xl font-display font-bold text-neon neon-text">00</div>
+          <div class="text-[10px] text-slate-500 uppercase tracking-widest mt-1.5 font-semibold">Secs</div>
+        </div>
+      </div>
+
+      <a href="#register" class="btn-neon inline-flex items-center gap-2" style="animation:pulse-glow 3s ease infinite">
+        Register Now <i data-lucide="arrow-right" class="w-5 h-5"></i>
+      </a>
+    </div>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <i data-lucide="chevrons-down" class="w-5 h-5 text-slate-600"></i>
+    </div>
+  </section>
+
+  <!-- ========== PERKS SECTION ========== -->
+  <section id="perks" class="py-28 px-6 relative">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-20">
+        <p class="text-neon font-display text-xs tracking-[0.4em] font-bold mb-3 uppercase">All-Access Pass</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold tracking-wide mb-4">WHAT'S INCLUDED</h2>
+        <p class="text-slate-500 max-w-xl mx-auto">Premium merchandise, gourmet dining, and an unforgettable farewell — all for 1,000 BDT.</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="glass card-glow rounded-2xl p-7 group">
+          <div class="w-12 h-12 rounded-xl bg-neon/10 flex items-center justify-center mb-5 group-hover:bg-neon/20 transition-colors">
+            <i data-lucide="shirt" class="w-6 h-6 text-neon"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Premium Jersey</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Custom athletic jersey designed exclusively for the graduating class of 2026.</p>
+        </div>
+        <div class="glass card-glow rounded-2xl p-7 group">
+          <div class="w-12 h-12 rounded-xl bg-neon-p/10 flex items-center justify-center mb-5 group-hover:bg-neon-p/20 transition-colors">
+            <i data-lucide="palette" class="w-6 h-6 text-neon-p"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Farewell T-Shirt</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Official white departure T-Shirt printed with custom memory artwork.</p>
+        </div>
+        <div class="glass card-glow rounded-2xl p-7 group">
+          <div class="w-12 h-12 rounded-xl bg-neon-pk/10 flex items-center justify-center mb-5 group-hover:bg-neon-pk/20 transition-colors">
+            <i data-lucide="utensils" class="w-6 h-6 text-neon-pk"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Lunch & Refreshments</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">A delicious lunch and refreshments served at the Nisarga Park banquet.</p>
+        </div>
+        <div class="glass card-glow rounded-2xl p-7 group">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-5 group-hover:bg-emerald-500/20 transition-colors">
+            <i data-lucide="music" class="w-6 h-6 text-emerald-400"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Entertainment & DJ</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Cultural staging, DJ night, farewell award ceremony, and photo sessions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== OPINION WALL ========== -->
+  <section id="wall" class="py-28 px-6 relative border-t border-white/5">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="text-neon-p font-display text-xs tracking-[0.4em] font-bold mb-3 uppercase">Confessions & Memories</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold tracking-wide mb-4">THE WALL</h2>
+        <p class="text-slate-500 max-w-lg mx-auto">Leave your mark before you leave. Speak your truth — or hide behind anonymity.</p>
+      </div>
+
+      <!-- Post form -->
+      <div class="glass rounded-2xl p-6 mb-10 max-w-2xl mx-auto" id="opinion-form-card">
+        <div id="opinion-auth-gate">
+          <div class="text-center py-6">
+            <i data-lucide="lock" class="w-8 h-8 text-slate-600 mx-auto mb-3"></i>
+            <p class="text-slate-500 text-sm mb-4">You need to log in to post on The Wall.</p>
+            <button onclick="openAuthModal()" class="btn-outline text-sm">Login to Post</button>
+          </div>
+        </div>
+        <div id="opinion-form" class="hidden">
+          <textarea id="opinion-text" class="input-dark resize-none h-24 mb-4" placeholder="Write your farewell message, confession, or memory..."></textarea>
+          <div class="flex items-center justify-between">
+            <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-400 hover:text-slate-300 transition-colors">
+              <input type="checkbox" id="opinion-anon" class="w-4 h-4 rounded accent-neon-p bg-transparent border-white/20">
+              Post Anonymously
+            </label>
+            <button onclick="postOpinion()" class="btn-neon py-2.5 px-6 text-sm">Post Message</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Opinion cards -->
+      <div id="opinion-wall-grid" class="grid md:grid-cols-2 gap-5"></div>
+    </div>
+  </section>
+
+  <!-- ========== REGISTRATION WIZARD ========== -->
+  <section id="register" class="py-28 px-6 relative border-t border-white/5">
+    <div class="max-w-2xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="text-neon font-display text-xs tracking-[0.4em] font-bold mb-3 uppercase">Limited Spots</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold tracking-wide mb-4">SECURE YOUR SPOT</h2>
+        <p class="text-slate-500 max-w-lg mx-auto">Complete the registration wizard and book your ticket through our secure gateway.</p>
+      </div>
+
+      <div class="glass rounded-2xl overflow-hidden">
+        <!-- Step Indicators -->
+        <div class="px-8 pt-8 pb-4">
+          <div class="flex items-center justify-center gap-0">
+            <div class="step-dot active" id="sdot-1">1</div>
+            <div class="step-line" id="sline-1"></div>
+            <div class="step-dot" id="sdot-2">2</div>
+            <div class="step-line" id="sline-2"></div>
+            <div class="step-dot" id="sdot-3">3</div>
+          </div>
+          <div class="flex justify-between mt-2 px-1">
+            <span class="text-[10px] text-slate-500 font-semibold tracking-wider uppercase">Details</span>
+            <span class="text-[10px] text-slate-500 font-semibold tracking-wider uppercase">Sizing</span>
+            <span class="text-[10px] text-slate-500 font-semibold tracking-wider uppercase">Checkout</span>
+          </div>
+        </div>
+
+        <!-- Step 1: Student Details -->
+        <div class="wizard-pane p-8 pt-4" id="wiz-1">
+          <div class="space-y-5">
+            <div>
+              <label class="text-xs text-slate-400 font-semibold tracking-wider uppercase mb-2 block">Full Name</label>
+              <input type="text" id="r-name" class="input-dark" placeholder="Enter your full name">
+            </div>
+            <div>
+              <label class="text-xs text-slate-400 font-semibold tracking-wider uppercase mb-2 block">Board Roll Number</label>
+              <input type="number" id="r-roll" class="input-dark" placeholder="e.g. 508493">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="text-xs text-slate-400 font-semibold tracking-wider uppercase mb-2 block">Email</label>
+                <input type="email" id="r-email" class="input-dark" placeholder="you@email.com">
+              </div>
+              <div>
+                <label class="text-xs text-slate-400 font-semibold tracking-wider uppercase mb-2 block">Mobile</label>
+                <input type="tel" id="r-phone" class="input-dark" placeholder="01XXXXXXXXX" maxlength="11">
+              </div>
+            </div>
+            <div>
+              <label class="text-xs text-slate-400 font-semibold tracking-wider uppercase mb-2 block">Academic Shift</label>
+              <div class="flex gap-3">
+                <button class="shift-btn active" onclick="selectShift('1st',this)">1st Shift</button>
+                <button class="shift-btn" onclick="selectShift('2nd',this)">2nd Shift</button>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 flex justify-end">
+            <button onclick="wizNext()" class="btn-neon py-3 px-8 text-sm flex items-center gap-2">Next <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+          </div>
+        </div>
+
+        <!-- Step 2: Sizing -->
+        <div class="wizard-pane p-8 pt-4 hidden" id="wiz-2">
+          <div class="space-y-8">
+            <div>
+              <label class="text-xs text-slate-400 font-semibold tracking-wider uppercase mb-4 block">Jersey Size</label>
+              <div class="flex flex-wrap gap-3" id="jersey-chips">
+                <button class="size-chip" onclick="pickSize('jersey','S',this)">S</button>
+                <button class="size-chip" onclick="pickSize('jersey','M',this)">M</button>
+                <button class="size-chip" onclick="pickSize('jersey','L',this)">L</button>
+                <button class="size-chip" onclick="pickSize('jersey','XL',this)">XL</button>
+                <button class="size-chip" onclick="pickSize('jersey','XXL',this)">XXL</button>
+              </div>
+            </div>
+            <div>
+              <label class="text-xs text-slate-400 font-semibold tracking-wider uppercase mb-4 block">T-Shirt Size</label>
+              <div class="flex flex-wrap gap-3" id="tshirt-chips">
+                <button class="size-chip" onclick="pickSize('tshirt','S',this)">S</button>
+                <button class="size-chip" onclick="pickSize('tshirt','M',this)">M</button>
+                <button class="size-chip" onclick="pickSize('tshirt','L',this)">L</button>
+                <button class="size-chip" onclick="pickSize('tshirt','XL',this)">XL</button>
+                <button class="size-chip" onclick="pickSize('tshirt','XXL',this)">XXL</button>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 flex justify-between">
+            <button onclick="wizPrev()" class="btn-ghost flex items-center gap-2"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+            <button onclick="wizNext()" class="btn-neon py-3 px-8 text-sm flex items-center gap-2">Next <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+          </div>
+        </div>
+
+        <!-- Step 3: Checkout Review -->
+        <div class="wizard-pane p-8 pt-4 hidden" id="wiz-3">
+          <div class="rounded-xl border border-white/5 bg-white/[0.02] p-6 mb-6">
+            <h3 class="font-display text-sm tracking-wider text-neon mb-5 font-bold">ORDER SUMMARY</h3>
+            <div class="space-y-3 text-sm">
+              <div class="flex justify-between"><span class="text-slate-500">Name</span><span class="font-semibold" id="rev-name">—</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Roll</span><span class="font-semibold" id="rev-roll">—</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Shift</span><span class="font-semibold" id="rev-shift">—</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Jersey</span><span class="font-semibold" id="rev-jersey">—</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">T-Shirt</span><span class="font-semibold" id="rev-tshirt">—</span></div>
+              <div class="border-t border-white/5 pt-3 mt-3 flex justify-between">
+                <span class="text-slate-400 font-semibold">Total Fee</span>
+                <span class="text-lg font-bold text-emerald-400">1,000 BDT</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between">
+            <button onclick="wizPrev()" class="btn-ghost flex items-center gap-2"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+            <button onclick="openBkashModal()" class="btn-neon py-3 px-8 text-sm flex items-center gap-2">
+              <img src="bkash_logo.jpg" alt="bKash" class="h-5 rounded" style="filter:brightness(1.1)"> Pay 1,000 BDT
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="border-t border-white/5 py-12 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <span class="font-display font-bold text-neon tracking-wider text-sm">ENT '26</span>
+        <span class="text-slate-600 text-sm ml-2">Electronics Farewell 2026</span>
+      </div>
+      <p class="text-slate-600 text-xs">© 2026 BPI Electronics Technology Department. Built with solidarity.</p>
+    </div>
+  </footer>
+
+  <!-- ========== AUTH MODAL ========== -->
+  <div class="modal-overlay" id="auth-modal">
+    <div class="glass rounded-2xl w-full max-w-md p-8 relative" style="animation:fadeInUp .4s ease">
+      <button onclick="closeModal('auth-modal')" class="absolute top-4 right-4 btn-ghost p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <div class="text-center mb-8">
+        <div class="w-14 h-14 rounded-2xl bg-neon/10 flex items-center justify-center mx-auto mb-4"><i data-lucide="shield-check" class="w-7 h-7 text-neon"></i></div>
+        <h3 class="font-display text-xl font-bold tracking-wider">AUTHENTICATE</h3>
+        <p class="text-slate-500 text-sm mt-1">Verify your identity to continue</p>
+      </div>
+      <!-- Phase 1: Email -->
+      <div id="auth-phase-1">
+        <label class="text-xs text-slate-400 font-semibold tracking-wider uppercase mb-2 block">Student Email</label>
+        <input type="email" id="auth-email" class="input-dark mb-4" placeholder="you@student.edu">
+        <button onclick="sendOTP()" class="btn-neon w-full py-3 text-sm">Send Verification Code</button>
+      </div>
+      <!-- Phase 2: OTP -->
+      <div id="auth-phase-2" class="hidden">
+        <label class="text-xs text-slate-400 font-semibold tracking-wider uppercase mb-2 block">Verification Code</label>
+        <input type="text" id="auth-otp" class="input-dark mb-2 text-center tracking-[0.5em] font-mono text-lg" placeholder="• • • • • •" maxlength="6">
+        <p class="text-xs text-neon-p mb-4 text-center font-medium">Demo code: <span class="font-mono">123456</span></p>
+        <button onclick="verifyOTP()" class="btn-neon w-full py-3 text-sm">Verify & Login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== BKASH PAYMENT MODAL ========== -->
+  <div class="modal-overlay" id="bkash-modal">
+    <div class="rounded-2xl w-full max-w-md overflow-hidden relative" style="animation:fadeInUp .4s ease;background:#1a1025;border:1px solid rgba(233,30,99,.15)">
+      <!-- bKash header -->
+      <div class="px-6 py-4 flex items-center justify-between" style="background:linear-gradient(135deg,#e3106e,#d81b60)">
+        <div class="flex items-center gap-3">
+          <img src="bkash_logo.jpg" alt="bKash" class="h-7 rounded">
+          <span class="font-bold text-white text-sm">bKash Checkout</span>
+        </div>
+        <button onclick="closeModal('bkash-modal')" class="text-white/70 hover:text-white transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <div class="px-6 py-3 flex justify-between text-xs border-b border-white/5" style="background:rgba(233,30,99,.06)">
+        <div><span class="text-slate-500">Merchant:</span><br><span class="font-bold text-slate-200">Electronics Farewell 2026</span></div>
+        <div class="text-right"><span class="text-slate-500">Amount:</span><br><span class="font-bold text-slate-200">1,000.00 BDT</span></div>
+      </div>
+      <!-- Phases -->
+      <div class="p-6">
+        <div id="bk-phase-1">
+          <label class="text-xs text-slate-400 font-semibold tracking-wider uppercase mb-2 block">bKash Wallet Number</label>
+          <input type="text" id="bk-phone" class="input-dark mb-2" placeholder="e.g. 017XXXXXXXX" maxlength="11">
+          <p class="text-[11px] text-slate-600 mb-4">By proceeding, you authorize a simulated tokenized transaction.</p>
+        </div>
+        <div id="bk-phase-2" class="hidden">
+          <label class="text-xs text-slate-400 font-semibold tracking-wider uppercase mb-2 block">OTP Verification</label>
+          <input type="text" id="bk-otp" class="input-dark mb-2 text-center tracking-[0.4em] font-mono" placeholder="6-Digit OTP" maxlength="6">
+          <p class="text-xs text-neon-pk text-center font-semibold mb-4">Simulated code: <span class="font-mono">123456</span></p>
+        </div>
+        <div id="bk-phase-3" class="hidden">
+          <label class="text-xs text-slate-400 font-semibold tracking-wider uppercase mb-2 block">Wallet PIN</label>
+          <input type="password" id="bk-pin" class="input-dark mb-2 text-center tracking-[0.4em] font-mono text-lg" placeholder="•••••" maxlength="5">
+          <p class="text-[11px] text-slate-600 mb-4">Your PIN is processed via a client-side simulated layer.</p>
+        </div>
+        <div id="bk-phase-4" class="hidden">
+          <div class="flex flex-col items-center py-8">
+            <div class="spinner mb-4" style="border-top-color:#e3106e"></div>
+            <p class="text-slate-400 text-sm font-medium">Processing Payment...</p>
+          </div>
+        </div>
+      </div>
+      <div class="px-6 pb-6" id="bk-actions">
+        <div class="flex gap-3">
+          <button onclick="closeModal('bkash-modal')" class="flex-1 py-3 rounded-xl border border-white/10 bg-transparent text-slate-400 font-semibold text-sm cursor-pointer hover:bg-white/5 transition-colors">Cancel</button>
+          <button onclick="bkashProceed()" id="bk-proceed-btn" class="flex-1 py-3 rounded-xl font-semibold text-sm cursor-pointer text-white transition-colors" style="background:linear-gradient(135deg,#e3106e,#d81b60)">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== RECEIPT MODAL ========== -->
+  <div class="modal-overlay" id="receipt-modal">
+    <div class="glass rounded-2xl w-full max-w-lg overflow-hidden relative" style="animation:fadeInUp .4s ease">
+      <div class="px-6 py-4 flex items-center justify-between border-b border-white/5">
+        <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm">
+          <i data-lucide="check-circle" class="w-5 h-5"></i> Payment Successful
+        </div>
+        <button onclick="closeModal('receipt-modal')" class="btn-ghost p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <div class="p-6">
+        <!-- Ticket stub -->
+        <div id="receipt-card" class="rounded-xl p-6 relative overflow-hidden" style="background:linear-gradient(135deg,#0d1117,#0a0a18);border:1px solid rgba(0,240,255,.12)">
+          <!-- Top accent -->
+          <div class="absolute top-0 left-0 right-0 h-1" style="background:linear-gradient(90deg,#00f0ff,#a855f7,#ec4899)"></div>
+
+          <div class="text-center mb-5 mt-2">
+            <span class="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-widest uppercase px-4 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <i data-lucide="check" class="w-3 h-3"></i> Verified Pass
+            </span>
+          </div>
+
+          <!-- Student Info -->
+          <div class="space-y-2.5 text-sm mb-5">
+            <div class="flex justify-between"><span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Receipt ID</span><span class="font-bold font-mono text-xs" id="rc-id">—</span></div>
+            <div class="flex justify-between"><span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Student Name</span><span class="font-bold uppercase" id="rc-name">—</span></div>
+            <div class="flex justify-between"><span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Board Roll</span><span class="font-bold" id="rc-roll">—</span></div>
+            <div class="flex justify-between"><span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Mobile</span><span class="font-semibold" id="rc-phone">—</span></div>
+            <div class="flex justify-between"><span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Shift</span><span class="font-semibold" id="rc-shift">—</span></div>
+          </div>
+
+          <!-- Divider with notches -->
+          <div class="relative my-5">
+            <div class="border-t border-dashed border-white/10"></div>
+            <div class="absolute -left-9 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full" style="background:#050510;border:1px solid rgba(0,240,255,.12)"></div>
+            <div class="absolute -right-9 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full" style="background:#050510;border:1px solid rgba(0,240,255,.12)"></div>
+          </div>
+
+          <!-- Payment Info -->
+          <div class="space-y-2.5 text-sm mb-5">
+            <div class="flex justify-between"><span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Jersey Size</span><span class="font-bold" id="rc-jersey">—</span></div>
+            <div class="flex justify-between"><span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">T-Shirt Size</span><span class="font-bold" id="rc-tshirt">—</span></div>
+            <div class="flex justify-between"><span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">bKash Number</span><span class="font-bold" id="rc-bkash">—</span></div>
+            <div class="flex justify-between"><span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Transaction ID</span><span class="font-bold text-neon font-mono text-xs" id="rc-txid">—</span></div>
+            <div class="flex justify-between"><span class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Paid Fee</span><span class="font-bold text-emerald-400">1,000 BDT</span></div>
+          </div>
+
+          <!-- Barcode -->
+          <div class="flex flex-col items-center mt-5">
+            <div class="flex items-stretch h-8 gap-px opacity-60 mb-1.5">
+              <div class="w-[2px] bg-slate-300"></div><div class="w-[1px] bg-slate-300"></div><div class="w-[3px] bg-slate-300"></div>
+              <div class="w-[1px] bg-slate-300"></div><div class="w-[2px] bg-slate-300"></div><div class="w-[4px] bg-slate-300"></div>
+              <div class="w-[1px] bg-slate-300"></div><div class="w-[3px] bg-slate-300"></div><div class="w-[2px] bg-slate-300"></div>
+              <div class="w-[1px] bg-slate-300"></div><div class="w-[4px] bg-slate-300"></div><div class="w-[2px] bg-slate-300"></div>
+              <div class="w-[1px] bg-slate-300"></div><div class="w-[3px] bg-slate-300"></div><div class="w-[1px] bg-slate-300"></div>
+              <div class="w-[2px] bg-slate-300"></div><div class="w-[3px] bg-slate-300"></div><div class="w-[4px] bg-slate-300"></div>
+              <div class="w-[1px] bg-slate-300"></div><div class="w-[2px] bg-slate-300"></div>
+            </div>
+            <span class="font-mono text-[10px] text-slate-600 tracking-[3px]" id="rc-barcode">—</span>
+          </div>
+
+          <!-- Download inside card -->
+          <button onclick="downloadReceipt()" class="btn-neon w-full py-3 text-sm mt-6">Download Pass</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ADMIN DASHBOARD MODAL ========== -->
+  <div class="modal-overlay" id="admin-modal">
+    <div class="glass rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col relative" style="animation:fadeInUp .4s ease">
+      <!-- Admin header -->
+      <div class="px-6 py-4 flex items-center justify-between border-b border-white/5 shrink-0">
+        <div class="flex items-center gap-2 font-display text-sm tracking-wider font-bold text-neon">
+          <i data-lucide="terminal" class="w-5 h-5"></i> ADMIN CONSOLE
+        </div>
+        <button onclick="closeModal('admin-modal')" class="btn-ghost p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <!-- Admin password gate -->
+      <div id="admin-gate" class="p-8 text-center">
+        <div class="w-16 h-16 rounded-2xl bg-neon/10 flex items-center justify-center mx-auto mb-5"><i data-lucide="lock" class="w-8 h-8 text-neon"></i></div>
+        <h3 class="font-display text-lg font-bold tracking-wider mb-2">ACCESS RESTRICTED</h3>
+        <p class="text-slate-500 text-sm mb-6">Enter the admin password to access the console.</p>
+        <div class="max-w-xs mx-auto">
+          <input type="password" id="admin-pass" class="input-dark mb-3 text-center" placeholder="Enter password">
+          <button onclick="adminLogin()" class="btn-neon w-full py-3 text-sm">Authenticate</button>
+          <p class="text-[11px] text-slate-600 mt-3">Demo password: <span class="font-mono text-slate-400">admin123</span></p>
+        </div>
+      </div>
+
+      <!-- Admin content -->
+      <div id="admin-content" class="hidden flex-1 flex flex-col overflow-hidden">
+        <div class="px-6 py-3 flex gap-2 border-b border-white/5 shrink-0">
+          <button class="tab-btn active" onclick="adminTab('regs',this)">Registrations</button>
+          <button class="tab-btn" onclick="adminTab('ops',this)">Opinions</button>
+          <button class="tab-btn" onclick="adminTab('logs',this)">Activity Log</button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-6">
+          <!-- Registrations Tab -->
+          <div id="admin-tab-regs"></div>
+          <!-- Opinions Tab -->
+          <div id="admin-tab-ops" class="hidden"></div>
+          <!-- Logs Tab -->
+          <div id="admin-tab-logs" class="hidden"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    // ===== CONSTANTS =====
+    const EVENT_DATE = new Date('2026-07-15T10:00:00+06:00');
+    const MOCK_OTP = '123456';
+    const ADMIN_PASS = 'admin123';
+
+    // ===== STATE =====
+    let wizStep = 1, selShift = '1st', selJersey = '', selTshirt = '', bkPhase = 1, bkNumber = '';
+
+    function getUser() { try{return JSON.parse(sessionStorage.getItem('ent_user'))}catch(e){return null} }
+    function setUser(u) { sessionStorage.setItem('ent_user', JSON.stringify(u)); }
+    function getRegs() { return JSON.parse(localStorage.getItem('ent_regs')||'[]'); }
+    function saveRegs(d) { localStorage.setItem('ent_regs', JSON.stringify(d)); }
+    function getOps() { return JSON.parse(localStorage.getItem('ent_ops')||'[]'); }
+    function saveOps(d) { localStorage.setItem('ent_ops', JSON.stringify(d)); }
+    function getLogs() { return JSON.parse(localStorage.getItem('ent_logs')||'[]'); }
+    function addLog(msg) { const l=getLogs(); l.unshift({msg,ts:new Date().toLocaleString()}); localStorage.setItem('ent_logs',JSON.stringify(l.slice(0,200))); }
+    function esc(s) { const d=document.createElement('div');d.textContent=s;return d.innerHTML; }
+
+    // ===== MOCK DATA =====
+    const MOCK_OPS = [
+      {id:1,name:'Rafiq Ahmed',msg:'These 4 years flew by... Will miss every moment in the electronics lab. ENT forever! 🔥',ts:'6/20/2026, 2:30 PM',anon:false,approved:true},
+      {id:2,name:'Anonymous',msg:'To the one who always sat in the back row — I never got to say it, but your smile made every boring lecture bearable.',ts:'6/19/2026, 11:15 PM',anon:true,approved:true},
+      {id:3,name:'Farhan Hossain',msg:"From circuit boards to code debugs — this department made us who we are. Proud to be ENT '22-23! 💫",ts:'6/21/2026, 9:45 AM',anon:false,approved:true},
+      {id:4,name:'Anonymous',msg:'Remember when the entire lab caught fire during the practical exam? 😂 Good times, good times.',ts:'6/18/2026, 4:20 PM',anon:true,approved:true},
+      {id:5,name:'Nusrat Jahan',msg:"To every teacher who believed in us when we didn't believe in ourselves — thank you. This farewell is bittersweet.",ts:'6/22/2026, 1:00 PM',anon:false,approved:true},
+      {id:6,name:'Anonymous',msg:'Last semester was the hardest. But we made it. See you all on the other side. ✨',ts:'6/23/2026, 8:30 AM',anon:true,approved:true},
+    ];
+
+    // ===== INIT =====
+    function init() {
+      if (getOps().length === 0) saveOps(MOCK_OPS);
+      updateAuthUI();
+      startCountdown();
+      renderOpinions();
+      lucide.createIcons();
+    }
+
+    // ===== TOAST =====
+    function toast(msg, type='info') {
+      const box = document.getElementById('toast-box');
+      const el = document.createElement('div');
+      el.className = `toast-item toast-${type}`;
+      const icons = {success:'check-circle',error:'alert-circle',info:'info'};
+      el.innerHTML = `<i data-lucide="${icons[type]||'info'}" class="w-4 h-4 shrink-0" style="color:${type==='success'?'#10b981':type==='error'?'#ef4444':'#00f0ff'}"></i><span>${msg}</span>`;
+      box.appendChild(el);
+      lucide.createIcons({nodes:[el]});
+      setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(50px)';el.style.transition='all .3s';setTimeout(()=>el.remove(),300)},4000);
+    }
+
+    // ===== MODAL HELPERS =====
+    function openModal(id){document.getElementById(id).classList.add('open')}
+    function closeModal(id){document.getElementById(id).classList.remove('open')}
+
+    // ===== COUNTDOWN =====
+    function startCountdown() {
+      function tick() {
+        const now = new Date(), diff = Math.max(0, EVENT_DATE - now);
+        const d = Math.floor(diff/86400000), h = Math.floor((diff%86400000)/3600000);
+        const m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+        document.getElementById('cd-d').textContent = String(d).padStart(2,'0');
+        document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+        document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+        document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+      }
+      tick(); setInterval(tick, 1000);
+    }
+
+    // ===== AUTH =====
+    function openAuthModal() {
+      document.getElementById('auth-phase-1').classList.remove('hidden');
+      document.getElementById('auth-phase-2').classList.add('hidden');
+      document.getElementById('auth-email').value = '';
+      document.getElementById('auth-otp').value = '';
+      openModal('auth-modal');
+    }
+
+    function sendOTP() {
+      const email = document.getElementById('auth-email').value.trim();
+      if (!email || !email.includes('@')) return toast('Enter a valid email address.','error');
+      document.getElementById('auth-phase-1').classList.add('hidden');
+      document.getElementById('auth-phase-2').classList.remove('hidden');
+      toast('Verification code sent to '+email,'success');
+    }
+
+    function verifyOTP() {
+      const otp = document.getElementById('auth-otp').value.trim();
+      if (otp !== MOCK_OTP) return toast('Invalid code. Use 123456 for demo.','error');
+      const email = document.getElementById('auth-email').value.trim();
+      const name = email.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+      setUser({email,name});
+      updateAuthUI();
+      closeModal('auth-modal');
+      addLog(`User authenticated: ${email}`);
+      toast('Welcome, '+name+'!','success');
+    }
+
+    function logout() {
+      sessionStorage.removeItem('ent_user');
+      updateAuthUI();
+      toast('Logged out successfully.','info');
+    }
+
+    function updateAuthUI() {
+      const u = getUser(), area = document.getElementById('nav-auth-area');
+      const gate = document.getElementById('opinion-auth-gate'), form = document.getElementById('opinion-form');
+      if (u) {
+        area.innerHTML = `<div class="flex items-center gap-3"><span class="text-xs text-slate-400 hidden sm:inline">${esc(u.name)}</span><button onclick="logout()" class="btn-ghost text-xs text-red-400 hover:text-red-300 py-1.5 px-3">Logout</button></div>`;
+        if(gate)gate.classList.add('hidden');
+        if(form)form.classList.remove('hidden');
+      } else {
+        area.innerHTML = `<button onclick="openAuthModal()" class="btn-outline text-sm py-2 px-5">Login</button>`;
+        if(gate)gate.classList.remove('hidden');
+        if(form)form.classList.add('hidden');
+      }
+    }
+
+    // ===== OPINION WALL =====
+    function renderOpinions() {
+      const ops = getOps().filter(o => o.approved !== false);
+      const grid = document.getElementById('opinion-wall-grid');
+      if (ops.length === 0) { grid.innerHTML = '<p class="text-slate-600 text-center col-span-2 py-12">No messages yet. Be the first to write on The Wall.</p>'; return; }
+      const colors = ['#00f0ff','#a855f7','#ec4899','#10b981','#f59e0b','#3b82f6'];
+      grid.innerHTML = ops.map((o,i) => {
+        const c = colors[i % colors.length];
+        return `<div class="opinion-card glass rounded-xl p-5 relative overflow-hidden" style="border-left:2px solid ${c}">
+          <div class="absolute top-0 right-0 w-24 h-24 rounded-full opacity-5" style="background:${c};filter:blur(30px);transform:translate(30%,-30%)"></div>
+          <p class="text-sm leading-relaxed mb-4 relative z-10">${esc(o.msg)}</p>
+          <div class="flex items-center justify-between relative z-10">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:${c}20;color:${c}">${o.anon?'?':esc(o.name)[0]}</div>
+              <span class="text-xs font-semibold ${o.anon?'text-slate-500 italic':'text-slate-300'}">${o.anon?'Anonymous':esc(o.name)}</span>
+            </div>
+            <span class="text-[10px] text-slate-600">${o.ts}</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function postOpinion() {
+      const u = getUser();
+      if (!u) return toast('Please login first.','error');
+      const text = document.getElementById('opinion-text').value.trim();
+      if (!text) return toast('Write something before posting.','error');
+      if (text.length > 500) return toast('Keep it under 500 characters.','error');
+      const anon = document.getElementById('opinion-anon').checked;
+      const op = { id: Date.now(), name: u.name, msg: text, ts: new Date().toLocaleString(), anon, approved: true };
+      const ops = getOps(); ops.unshift(op); saveOps(ops);
+      document.getElementById('opinion-text').value = '';
+      document.getElementById('opinion-anon').checked = false;
+      renderOpinions();
+      addLog(`Opinion posted by ${anon?'Anonymous':u.name}`);
+      toast('Your message has been posted!','success');
+    }
+
+    // ===== REGISTRATION WIZARD =====
+    function selectShift(s, el) {
+      selShift = s;
+      el.parentElement.querySelectorAll('.shift-btn').forEach(b=>b.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function pickSize(type, size, el) {
+      if(type==='jersey') selJersey=size; else selTshirt=size;
+      el.parentElement.querySelectorAll('.size-chip').forEach(c=>c.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function updateWizUI() {
+      for(let i=1;i<=3;i++){
+        const pane=document.getElementById('wiz-'+i);
+        const dot=document.getElementById('sdot-'+i);
+        pane.classList.toggle('hidden',i!==wizStep);
+        dot.classList.remove('active','done');
+        if(i<wizStep) dot.classList.add('done');
+        else if(i===wizStep) dot.classList.add('active');
+        if(i<3){const ln=document.getElementById('sline-'+i);ln.classList.toggle('done',i<wizStep)}
+      }
+      if(wizStep===3){
+        document.getElementById('rev-name').textContent=document.getElementById('r-name').value||'—';
+        document.getElementById('rev-roll').textContent=document.getElementById('r-roll').value||'—';
+        document.getElementById('rev-shift').textContent=selShift+' Shift';
+        document.getElementById('rev-jersey').textContent=selJersey||'—';
+        document.getElementById('rev-tshirt').textContent=selTshirt||'—';
+      }
+      lucide.createIcons();
+    }
+
+    function wizNext() {
+      if(wizStep===1){
+        const n=document.getElementById('r-name').value.trim(),r=document.getElementById('r-roll').value.trim();
+        const e=document.getElementById('r-email').value.trim(),p=document.getElementById('r-phone').value.trim();
+        if(!n) return toast('Enter your full name.','error');
+        if(!r) return toast('Enter your board roll number.','error');
+        if(!e||!e.includes('@')) return toast('Enter a valid email.','error');
+        if(!p||p.length<11) return toast('Enter a valid mobile number.','error');
+        // Check duplicate
+        const existing = getRegs();
+        if(existing.find(x=>String(x.roll)===String(r))) return toast('This roll number is already registered.','error');
+      }
+      if(wizStep===2){
+        if(!selJersey) return toast('Select a jersey size.','error');
+        if(!selTshirt) return toast('Select a T-shirt size.','error');
+      }
+      wizStep = Math.min(3,wizStep+1);
+      updateWizUI();
+    }
+
+    function wizPrev() { wizStep = Math.max(1,wizStep-1); updateWizUI(); }
+
+    function resetWizard() {
+      wizStep=1; selJersey=''; selTshirt=''; selShift='1st';
+      document.getElementById('r-name').value='';document.getElementById('r-roll').value='';
+      document.getElementById('r-email').value='';document.getElementById('r-phone').value='';
+      document.querySelectorAll('#jersey-chips .size-chip, #tshirt-chips .size-chip').forEach(c=>c.classList.remove('active'));
+      document.querySelectorAll('.shift-btn').forEach((b,i)=>{b.classList.toggle('active',i===0)});
+      updateWizUI();
+    }
+
+    // ===== BKASH PAYMENT =====
+    function openBkashModal() {
+      bkPhase = 1; bkNumber = '';
+      document.getElementById('bk-phone').value='';document.getElementById('bk-otp').value='';document.getElementById('bk-pin').value='';
+      for(let i=1;i<=4;i++) document.getElementById('bk-phase-'+i).classList.toggle('hidden',i!==1);
+      document.getElementById('bk-actions').classList.remove('hidden');
+      openModal('bkash-modal');
+    }
+
+    function bkashProceed() {
+      if(bkPhase===1){
+        const ph=document.getElementById('bk-phone').value.trim();
+        if(!ph||ph.length<11) return toast('Enter a valid bKash number.','error');
+        bkNumber=ph; bkPhase=2;
+      } else if(bkPhase===2){
+        if(document.getElementById('bk-otp').value.trim()!==MOCK_OTP) return toast('Invalid OTP. Use 123456.','error');
+        bkPhase=3;
+      } else if(bkPhase===3){
+        const pin=document.getElementById('bk-pin').value.trim();
+        if(!pin||pin.length<5) return toast('Enter 5-digit PIN.','error');
+        bkPhase=4;
+        document.getElementById('bk-actions').classList.add('hidden');
+        setTimeout(()=>completePayment(), 2500);
+      }
+      for(let i=1;i<=4;i++) document.getElementById('bk-phase-'+i).classList.toggle('hidden',i!==bkPhase);
+    }
+
+    function completePayment() {
+      const name=document.getElementById('r-name').value.trim();
+      const roll=document.getElementById('r-roll').value.trim();
+      const email=document.getElementById('r-email').value.trim();
+      const phone=document.getElementById('r-phone').value.trim();
+      const txid = `BK${Math.floor(10000000+Math.random()*90000000)}`;
+      const rcptId = `ENT26-${roll}-${Math.floor(100+Math.random()*900)}`;
+
+      const reg = {name,roll,email,phone,shift:selShift,jersey:selJersey,tshirt:selTshirt,txid,rcptId,bkash:bkNumber,ts:new Date().toLocaleString()};
+      const regs = getRegs(); regs.push(reg); saveRegs(regs);
+      addLog(`Registration completed: ${name} (Roll: ${roll}), TxID: ${txid}`);
+
+      // Populate receipt
+      document.getElementById('rc-id').textContent=rcptId;
+      document.getElementById('rc-name').textContent=name.toUpperCase();
+      document.getElementById('rc-roll').textContent=roll;
+      document.getElementById('rc-phone').textContent=phone;
+      document.getElementById('rc-shift').textContent=selShift+' Shift';
+      document.getElementById('rc-jersey').textContent=selJersey;
+      document.getElementById('rc-tshirt').textContent=selTshirt;
+      document.getElementById('rc-bkash').textContent=bkNumber;
+      document.getElementById('rc-txid').textContent=txid;
+      document.getElementById('rc-barcode').textContent=roll+'-'+txid.substring(0,6);
+
+      closeModal('bkash-modal');
+      openModal('receipt-modal');
+      resetWizard();
+      toast('Payment successful! Your pass is ready.','success');
+    }
+
+    // ===== RECEIPT DOWNLOAD =====
+    function downloadReceipt() {
+      const rcptId=document.getElementById('rc-id').textContent;
+      const name=document.getElementById('rc-name').textContent;
+      const roll=document.getElementById('rc-roll').textContent;
+      const phone=document.getElementById('rc-phone').textContent;
+      const shift=document.getElementById('rc-shift').textContent;
+      const jersey=document.getElementById('rc-jersey').textContent;
+      const tshirt=document.getElementById('rc-tshirt').textContent;
+      const bkash=document.getElementById('rc-bkash').textContent;
+      const txid=document.getElementById('rc-txid').textContent;
+      const barcode=document.getElementById('rc-barcode').textContent;
+
+      const C = document.createElement('canvas'); C.width=520; C.height=640;
+      const ctx = C.getContext('2d');
+
+      // Background
+      ctx.fillStyle='#0a0a18'; ctx.fillRect(0,0,520,640);
+
+      // Top gradient accent
+      const g1 = ctx.createLinearGradient(0,0,520,0);
+      g1.addColorStop(0,'#00f0ff');g1.addColorStop(0.5,'#a855f7');g1.addColorStop(1,'#ec4899');
+      ctx.fillStyle=g1; ctx.fillRect(0,0,520,4);
+
+      // Border
+      ctx.strokeStyle='rgba(0,240,255,0.12)'; ctx.lineWidth=1;
+      ctx.strokeRect(0.5,0.5,519,639);
+
+      // Verified badge
+      ctx.textAlign='center';
+      ctx.fillStyle='rgba(16,185,129,0.15)';
+      roundRect(ctx,185,24,150,26,13,true,false);
+      ctx.fillStyle='#10b981';ctx.font='bold 10px "Inter",sans-serif';
+      ctx.fillText('✔ VERIFIED PASS',260,42);
+
+      // Title
+      ctx.fillStyle='#00f0ff'; ctx.font='bold 14px "Orbitron",sans-serif';
+      ctx.fillText('ENT \'26 — FAREWELL PASS',260,82);
+      ctx.fillStyle='#475569';ctx.font='600 9px "Inter",sans-serif';
+      ctx.fillText('ELECTRONICS TECHNOLOGY • SESSION 2022-23',260,100);
+
+      // Separator
+      ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(30,118);ctx.lineTo(490,118);ctx.stroke();
+
+      // Student details
+      ctx.textAlign='left';
+      const sData=[
+        ['RECEIPT ID',rcptId],['STUDENT NAME',name],['BOARD ROLL',roll],
+        ['MOBILE',phone],['SHIFT',shift]
+      ];
+      let y=145;
+      sData.forEach(([label,val])=>{
+        ctx.fillStyle='#64748b';ctx.font='bold 8px "Inter",sans-serif';ctx.fillText(label,35,y);
+        ctx.textAlign='right';ctx.fillStyle='#e2e8f0';ctx.font='bold 11px "Inter",sans-serif';ctx.fillText(val,485,y);
+        ctx.textAlign='left';
+        y+=30;
+      });
+
+      // Dashed divider with notches
+      y+=5;
+      ctx.setLineDash([5,5]);ctx.strokeStyle='rgba(255,255,255,0.08)';
+      ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(520,y);ctx.stroke();ctx.setLineDash([]);
+      // Notches
+      ctx.fillStyle='#050510';
+      ctx.beginPath();ctx.arc(0,y,10,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.arc(520,y,10,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='rgba(0,240,255,0.12)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.arc(0,y,10,0,Math.PI*2);ctx.stroke();
+      ctx.beginPath();ctx.arc(520,y,10,0,Math.PI*2);ctx.stroke();
+
+      // Payment details
+      y+=30;
+      const pData=[
+        ['JERSEY SIZE',jersey],['T-SHIRT SIZE',tshirt],['BKASH NUMBER',bkash],
+        ['TRANSACTION ID',txid,'#00f0ff'],['PAID FEE','1,000 BDT','#10b981']
+      ];
+      pData.forEach(([label,val,color])=>{
+        ctx.fillStyle='#64748b';ctx.font='bold 8px "Inter",sans-serif';ctx.textAlign='left';ctx.fillText(label,35,y);
+        ctx.textAlign='right';ctx.fillStyle=color||'#e2e8f0';ctx.font='bold 11px "Inter",sans-serif';ctx.fillText(val,485,y);
+        y+=30;
+      });
+
+      // Barcode
+      y+=10;
+      ctx.fillStyle='#94a3b8';
+      const bw=[2,1,3,1,2,4,1,3,2,1,4,2,1,3,1,2,3,4,1,2];
+      let bx=210;
+      bw.forEach((w,i)=>{if(i%2===0)ctx.fillRect(bx,y,w,28);bx+=w+1;});
+      ctx.textAlign='center';ctx.fillStyle='#475569';ctx.font='bold 9px "JetBrains Mono",monospace';
+      ctx.fillText(barcode,260,y+44);
+
+      // Footer
+      ctx.fillStyle='#334155';ctx.font='italic 8px "Inter",sans-serif';
+      ctx.fillText('© 2026 BPI Electronics Technology Department',260,625);
+
+      // Download
+      const link = document.createElement('a');
+      link.download = `ENT26_Pass_${roll}.png`;
+      link.href = C.toDataURL('image/png');
+      link.click();
+      toast('Pass downloaded!','success');
+
+      function roundRect(c,x,y,w,h,r,fill,stroke){
+        c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.quadraticCurveTo(x+w,y,x+w,y+r);
+        c.lineTo(x+w,y+h-r);c.quadraticCurveTo(x+w,y+h,x+w-r,y+h);c.lineTo(x+r,y+h);
+        c.quadraticCurveTo(x,y+h,x,y+h-r);c.lineTo(x,y+r);c.quadraticCurveTo(x,y,x+r,y);
+        c.closePath();if(fill)c.fill();if(stroke)c.stroke();
+      }
+    }
+
+    // ===== ADMIN DASHBOARD =====
+    function openAdmin() {
+      document.getElementById('admin-gate').classList.remove('hidden');
+      document.getElementById('admin-content').classList.add('hidden');
+      document.getElementById('admin-pass').value='';
+      openModal('admin-modal');
+    }
+
+    function adminLogin() {
+      if(document.getElementById('admin-pass').value!==ADMIN_PASS) return toast('Incorrect password.','error');
+      document.getElementById('admin-gate').classList.add('hidden');
+      document.getElementById('admin-content').classList.remove('hidden');
+      renderAdminRegs();
+      addLog('Admin console accessed');
+      toast('Admin access granted.','success');
+    }
+
+    function adminTab(tab, el) {
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('admin-tab-regs').classList.toggle('hidden',tab!=='regs');
+      document.getElementById('admin-tab-ops').classList.toggle('hidden',tab!=='ops');
+      document.getElementById('admin-tab-logs').classList.toggle('hidden',tab!=='logs');
+      if(tab==='regs') renderAdminRegs();
+      if(tab==='ops') renderAdminOps();
+      if(tab==='logs') renderAdminLogs();
+    }
+
+    function renderAdminRegs() {
+      const regs = getRegs(), el = document.getElementById('admin-tab-regs');
+      if(regs.length===0){ el.innerHTML='<p class="text-slate-600 text-sm text-center py-12">No registrations yet.</p>'; return; }
+      el.innerHTML = `<div class="overflow-x-auto"><table class="w-full text-sm">
+        <thead><tr class="text-left text-[10px] text-slate-500 uppercase tracking-wider border-b border-white/5">
+          <th class="pb-3 pr-4">Name</th><th class="pb-3 pr-4">Roll</th><th class="pb-3 pr-4">Shift</th>
+          <th class="pb-3 pr-4">Sizes</th><th class="pb-3 pr-4">TxID</th><th class="pb-3">Action</th>
+        </tr></thead><tbody>${regs.map(r=>`<tr class="border-b border-white/[0.03] hover:bg-white/[0.02]">
+          <td class="py-3 pr-4 font-semibold">${esc(r.name)}</td>
+          <td class="py-3 pr-4 font-mono text-xs text-slate-400">${esc(r.roll)}</td>
+          <td class="py-3 pr-4">${r.shift}</td>
+          <td class="py-3 pr-4 text-xs">${r.jersey}/${r.tshirt}</td>
+          <td class="py-3 pr-4 font-mono text-xs text-neon">${esc(r.txid)}</td>
+          <td class="py-3"><button onclick="deleteReg('${esc(r.roll)}')" class="text-xs text-red-400 hover:text-red-300 font-semibold">Delete</button></td>
+        </tr>`).join('')}</tbody></table></div>
+        <p class="text-xs text-slate-600 mt-4">${regs.length} registration(s) total</p>`;
+    }
+
+    function deleteReg(roll) {
+      if(!confirm('Delete registration for roll '+roll+'?')) return;
+      const regs=getRegs().filter(r=>String(r.roll)!==String(roll));
+      saveRegs(regs);addLog('Admin deleted registration: Roll '+roll);
+      renderAdminRegs();toast('Registration deleted.','info');
+    }
+
+    function renderAdminOps() {
+      const ops = getOps(), el = document.getElementById('admin-tab-ops');
+      if(ops.length===0){el.innerHTML='<p class="text-slate-600 text-sm text-center py-12">No opinions.</p>';return;}
+      el.innerHTML = ops.map(o=>`<div class="flex items-start justify-between p-4 rounded-xl glass mb-3">
+        <div class="flex-1 mr-4">
+          <p class="text-sm mb-1.5">${esc(o.msg)}</p>
+          <p class="text-[10px] text-slate-600">${o.anon?'Anonymous':esc(o.name)} • ${o.ts}</p>
+        </div>
+        <div class="flex gap-2 shrink-0">
+          <button onclick="toggleOp(${o.id})" class="text-[11px] font-semibold px-3 py-1 rounded-lg transition-colors ${o.approved!==false?'text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20':'text-red-400 bg-red-500/10 hover:bg-red-500/20'}">
+            ${o.approved!==false?'Approved':'Hidden'}
+          </button>
+          <button onclick="deleteOp(${o.id})" class="text-[11px] font-semibold text-red-400 px-2 py-1 rounded-lg bg-red-500/10 hover:bg-red-500/20">✕</button>
+        </div>
+      </div>`).join('');
+    }
+
+    function toggleOp(id) {
+      const ops=getOps().map(o=>{if(o.id===id)o.approved=o.approved===false?true:false;return o;});
+      saveOps(ops);renderAdminOps();renderOpinions();
+      addLog('Admin toggled opinion visibility: ID '+id);
+    }
+
+    function deleteOp(id) {
+      const ops=getOps().filter(o=>o.id!==id);saveOps(ops);renderAdminOps();renderOpinions();
+      addLog('Admin deleted opinion: ID '+id);toast('Opinion deleted.','info');
+    }
+
+    function renderAdminLogs() {
+      const logs=getLogs(), el=document.getElementById('admin-tab-logs');
+      if(logs.length===0){el.innerHTML='<p class="text-slate-600 text-sm text-center py-12">No activity recorded.</p>';return;}
+      el.innerHTML = `<div class="font-mono text-xs space-y-1.5 max-h-96 overflow-y-auto p-4 rounded-xl" style="background:rgba(0,0,0,.3)">
+        ${logs.map(l=>`<div class="flex gap-3"><span class="text-slate-600 shrink-0">[${l.ts}]</span><span class="text-emerald-400">${esc(l.msg)}</span></div>`).join('')}
+        <div class="text-slate-700 mt-2">— end of log —<span class="inline-block w-2 h-3.5 bg-emerald-400 ml-1" style="animation:blink 1s step-end infinite"></span></div>
+      </div>`;
+    }
+
+    // ===== SMOOTH SCROLL =====
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+        document.getElementById('mobile-menu').classList.add('hidden');
+      });
+    });
+
+    // ===== BOOT =====
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
