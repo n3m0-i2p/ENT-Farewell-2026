@@ -536,95 +536,29 @@
             box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.05);
         }
 
-        .shift-selection-grid {
+        .toggle-switch-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-top: 5px;
         }
 
-        .shift-card {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .toggle-btn {
             background: var(--bg-deep);
-            border: 1.5px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px 20px;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            user-select: none;
-        }
-
-        .shift-card:hover {
-            border-color: #cbd5e1;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
-        }
-
-        .shift-card-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            background: #ffffff;
-            color: var(--text-primary);
             border: 1px solid var(--border-color);
-            transition: all 0.25s ease;
-        }
-
-        .shift-card-details {
-            flex: 1;
-            text-align: left;
-        }
-
-        .shift-card-title {
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: var(--text-primary);
-            transition: all 0.25s ease;
-        }
-
-        .shift-card-desc {
-            font-size: 0.75rem;
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
             color: var(--text-muted);
-            margin-top: 2px;
-            transition: all 0.25s ease;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition-smooth);
         }
 
-        .shift-card-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--text-primary);
-            color: #ffffff;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        /* Active State */
-        .shift-card.active {
-            background: #ffffff;
-            border-color: var(--text-primary);
-            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
-        }
-
-        .shift-card.active .shift-card-icon {
+        .toggle-btn.active {
             background: var(--text-primary);
             color: #ffffff;
             border-color: var(--text-primary);
-        }
-
-        .shift-card.active .shift-card-badge {
-            opacity: 1;
-            transform: scale(1);
         }
 
         /* GRID SELECTIONS */
@@ -1729,10 +1663,10 @@
                 <!-- Step Indicator bar -->
                 <div class="progress-bar-container">
                     <div class="progress-fill" id="wizard-progress-bar-fill"></div>
-                    <div class="step-node active" data-step="1">1 <span class="node-label">Overview</span></div>
-                    <div class="step-node" data-step="2">2 <span class="node-label">Student Details</span></div>
-                    <div class="step-node" data-step="3">3 <span class="node-label">Select Sizes</span></div>
-                    <div class="step-node" data-step="4">4 <span class="node-label">Payment</span></div>
+                    <div class="step-node active" data-step="1">1 <span class="node-label">Manifesto</span></div>
+                    <div class="step-node" data-step="2">2 <span class="node-label">Details</span></div>
+                    <div class="step-node" data-step="3">3 <span class="node-label">Customization</span></div>
+                    <div class="step-node" data-step="4">4 <span class="node-label">Checkout</span></div>
                 </div>
 
                 <!-- Step 1: Joint Manifesto welcome -->
@@ -1823,31 +1757,9 @@
 
                         <div class="form-group">
                             <label class="form-label">Academic Shift</label>
-                            <div class="shift-selection-grid">
-                                <div class="shift-card active" data-shift="1st">
-                                    <div class="shift-card-icon">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-                                    </div>
-                                    <div class="shift-card-details">
-                                        <div class="shift-card-title">1st Shift</div>
-                                        <div class="shift-card-desc">Morning Session</div>
-                                    </div>
-                                    <div class="shift-card-badge">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                                    </div>
-                                </div>
-                                <div class="shift-card" data-shift="2nd">
-                                    <div class="shift-card-icon">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                                    </div>
-                                    <div class="shift-card-details">
-                                        <div class="shift-card-title">2nd Shift</div>
-                                        <div class="shift-card-desc">Day Session</div>
-                                    </div>
-                                    <div class="shift-card-badge">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                                    </div>
-                                </div>
+                            <div class="toggle-switch-container">
+                                <div class="toggle-btn active" data-shift="1st">1st Shift</div>
+                                <div class="toggle-btn" data-shift="2nd">2nd Shift</div>
                             </div>
                         </div>
                     </div>
@@ -1914,7 +1826,15 @@
                             </div>
                             <div class="summary-row">
                                 <span class="summary-lbl">Ticket Amount</span>
-                                <span class="summary-val" style="color: var(--success-color);">1,000 BDT</span>
+                                <span class="summary-val">1,000 BDT</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="summary-lbl">Service Charge</span>
+                                <span class="summary-val">10 BDT</span>
+                            </div>
+                            <div class="summary-row" style="border-top: 1.5px dashed var(--border-color); padding-top: 12px; margin-top: 8px;">
+                                <span class="summary-lbl" style="font-weight: 800; color: var(--text-primary);">Total Amount</span>
+                                <span class="summary-val" style="color: var(--success-color); font-weight: 800; font-size: 1.05rem;">1,010 BDT</span>
                             </div>
                         </div>
                     </div>
@@ -1948,17 +1868,18 @@
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     </div>
                     <div class="lock-headline">Locked Opinion Wall</div>
-                    <div class="lock-subtext">Access is reserved for registered graduates. Verify your email address to unlock.</div>
+                    <div class="lock-subtext">Access is reserved for registered graduates. Verify your Full Name and Board Roll to unlock.</div>
 
                     <div class="opinion-auth-row" style="flex-direction: column; width: 100%; max-width: 400px; gap: 15px;">
-                        <!-- Email Input Phase -->
-                        <div id="opinion-email-step" style="width: 100%;">
-                            <input type="email" id="opinion-auth-email" class="form-input" placeholder="Enter registered or guest email" style="margin-bottom: 12px;">
-                            <button type="button" id="btn-opinion-send-otp" class="btn-premium" style="width: 100%; height: 46px;">Send OTP</button>
+                        <!-- Details Input Phase -->
+                        <div id="opinion-details-step" style="width: 100%;">
+                            <input type="text" id="opinion-auth-name" class="form-input" placeholder="Enter your registered name" style="margin-bottom: 12px;">
+                            <input type="number" id="opinion-auth-roll" class="form-input" placeholder="Enter your board roll number" style="margin-bottom: 12px;">
+                            <button type="button" id="btn-opinion-send-otp" class="btn-premium" style="width: 100%; height: 46px;">Verify Details</button>
                         </div>
                         <!-- OTP Code Phase -->
                         <div id="opinion-otp-step" style="width: 100%; display: none;">
-                            <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px; text-align: center;">Mock verification code sent. Enter 123456 to simulate.</p>
+                            <p id="opinion-otp-hint" style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px; text-align: center;">Mock verification code sent. Enter 123456 to simulate.</p>
                             <input type="text" id="opinion-auth-otp" class="form-input" placeholder="Enter 6-digit OTP" style="margin-bottom: 12px; text-align: center; letter-spacing: 4px;" maxlength="6">
                             <button type="button" id="btn-opinion-verify-otp" class="btn-premium" style="width: 100%; height: 46px;">Verify & Unlock</button>
                         </div>
@@ -2112,7 +2033,7 @@
                     </div>
                     <div style="text-align: right;">
                         <span style="font-size: 0.68rem; color: #666666;">Amount:</span><br>
-                        <strong style="color: #0f172a;">1,000.00 BDT</strong>
+                        <strong style="color: #0f172a;">1,010.00 BDT</strong>
                     </div>
                 </div>
             </div>
@@ -2243,7 +2164,7 @@
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="color: #64748b; font-weight: 600; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.8px;">Paid Ticket Fee</span>
-                            <span style="color: #059669; font-weight: 800; font-size: 0.85rem;">1,000 BDT</span>
+                            <span style="color: #059669; font-weight: 800; font-size: 0.85rem;">1,010 BDT</span>
                         </div>
                     </div>
 
@@ -2273,17 +2194,15 @@
                         </div>
                         <span id="ticket-barcode-num" style="font-family: 'Courier New', monospace; font-size: 0.72rem; color: #64748b; font-weight: 700; letter-spacing: 2px;"></span>
                     </div>
-                </div>
 
+                    <!-- Download Pass Button (inside card) -->
+                    <button type="button" id="btn-ticket-receipt-download" class="btn-premium" style="width: 100%; margin-top: 20px; padding: 13px 0; font-size: 0.85rem; border-radius: 10px;">
+                        Download Pass
+                    </button>
                 </div>
-            </div>
-
-            <div class="receipt-modal-footer">
-                <button type="button" id="btn-ticket-receipt-download" class="btn-premium" style="width: 100%;">
-                    Download Pass
-                </button>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- ADMIN ACTION DIALOGS (Edit / Delete Confirmation) -->
@@ -2481,12 +2400,12 @@
         let selectedTshirtSize = 'L';
 
         // Toggle shift controls
-        const shiftCards = document.querySelectorAll('.shift-card');
-        shiftCards.forEach(card => {
-            card.addEventListener('click', () => {
-                shiftCards.forEach(c => c.classList.remove('active'));
-                card.classList.add('active');
-                selectedShift = card.getAttribute('data-shift');
+        const toggleShiftBtns = document.querySelectorAll('.toggle-btn');
+        toggleShiftBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                toggleShiftBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedShift = btn.getAttribute('data-shift');
             });
         });
 
@@ -2535,7 +2454,7 @@
                 btnWizardNext.innerText = 'Start Application';
             } else if (wizardCurrentStep === wizardTotalSteps) {
                 btnWizardBack.style.visibility = 'visible';
-                btnWizardNext.innerText = 'Proceed to Pay 1,000 BDT';
+                btnWizardNext.innerText = 'Proceed to Pay 1,010 BDT';
                 btnWizardNext.classList.add('btn-bkash');
 
                 // Populate Summary
@@ -2874,7 +2793,7 @@
                 { label: 'PAID FROM ACCOUNT', val: bkashNo, color: '#0f172a', bold: false },
                 { label: 'TRANSACTION ID', val: txid, color: '#059669', bold: true },
                 { label: 'PAYMENT ID', val: payId, color: '#64748b', bold: false, isPayId: true },
-                { label: 'PAID TICKET FEE', val: '1,000 BDT', color: '#059669', bold: true, isFee: true },
+                { label: 'PAID TICKET FEE', val: '1,010 BDT', color: '#059669', bold: true, isFee: true },
                 { label: 'PAYMENT DATE', val: dateVal, color: '#0f172a', bold: false }
             ];
 
@@ -2980,12 +2899,14 @@
         const opinionBlockerOverlay = document.getElementById('opinion-blocker-overlay');
         const opinionCardWrapper = document.getElementById('opinion-timeline-card-wrapper');
 
-        const opinionEmailStep = document.getElementById('opinion-email-step');
+        const opinionDetailsStep = document.getElementById('opinion-details-step');
         const opinionOtpStep = document.getElementById('opinion-otp-step');
-        const opinionAuthEmail = document.getElementById('opinion-auth-email');
+        const opinionAuthName = document.getElementById('opinion-auth-name');
+        const opinionAuthRoll = document.getElementById('opinion-auth-roll');
         const btnOpinionSendOtp = document.getElementById('btn-opinion-send-otp');
         const opinionAuthOtp = document.getElementById('opinion-auth-otp');
         const btnOpinionVerifyOtp = document.getElementById('btn-opinion-verify-otp');
+        const opinionOtpHint = document.getElementById('opinion-otp-hint');
 
         const opinionPostTextarea = document.getElementById('opinion-post-textarea');
         const btnPostOpinionSubmit = document.getElementById('btn-post-opinion-submit');
@@ -2998,25 +2919,55 @@
         const btnOpinionLogout = document.getElementById('btn-opinion-logout');
 
         let activeVerifiedUser = null; // Verified record
-        let tempEmailVal = '';
+        let tempNameVal = '';
+        let tempRollVal = '';
 
-        // Click Send OTP
-        btnOpinionSendOtp.addEventListener('click', () => {
-            const emailVal = opinionAuthEmail.value.trim();
-            if (!emailVal || !emailVal.includes('@')) {
-                alert('Please enter a valid email address.');
+        // Click Verify Details (Send OTP)
+        btnOpinionSendOtp.addEventListener('click', async () => {
+            const nameVal = opinionAuthName.value.trim();
+            const rollVal = opinionAuthRoll.value.trim();
+            
+            if (!nameVal) {
+                alert('Please enter your full name.');
                 return;
             }
-            tempEmailVal = emailVal;
-            btnOpinionSendOtp.innerText = 'Sending...';
+            if (!rollVal) {
+                alert('Please enter your board roll.');
+                return;
+            }
+
+            btnOpinionSendOtp.innerText = 'Verifying...';
             btnOpinionSendOtp.disabled = true;
 
+            const registrations = await AppDB.getRegistrations();
+            const matched = registrations.find(r => String(r.roll) === String(rollVal));
+
             setTimeout(() => {
-                btnOpinionSendOtp.innerText = 'Send OTP';
+                btnOpinionSendOtp.innerText = 'Verify Details';
                 btnOpinionSendOtp.disabled = false;
-                opinionEmailStep.style.display = 'none';
+
+                if (!matched) {
+                    alert('Registration record not found for this Board Roll. Please register in the Farewell Portal first!');
+                    return;
+                }
+
+                // If matched, we proceed to OTP code simulation
+                activeVerifiedUser = matched;
+                tempNameVal = nameVal;
+                tempRollVal = rollVal;
+
+                // Format mobile number for display: e.g. 018*****072
+                let phone = matched.phone || '';
+                let formattedPhone = phone;
+                if (phone.length >= 11) {
+                    formattedPhone = phone.substring(0, 3) + '*****' + phone.substring(phone.length - 3);
+                }
+
+                opinionOtpHint.innerText = `We have sent a mock OTP code to your registered mobile (${formattedPhone}). Enter 123456 to simulate.`;
+                
+                opinionDetailsStep.style.display = 'none';
                 opinionOtpStep.style.display = 'block';
-                triggerSystemToast(`Mock OTP code sent to ${emailVal}`);
+                triggerSystemToast(`Mock verification code sent to ${formattedPhone}`);
             }, 800);
         });
 
@@ -3031,34 +2982,21 @@
             btnOpinionVerifyOtp.innerText = 'Verifying...';
             btnOpinionVerifyOtp.disabled = true;
 
-            const registrations = await AppDB.getRegistrations();
-            const matched = registrations.find(r => r.email.toLowerCase() === tempEmailVal.toLowerCase());
-
             setTimeout(() => {
                 btnOpinionVerifyOtp.innerText = 'Verify & Unlock';
                 btnOpinionVerifyOtp.disabled = false;
 
-                // Any 6-digit code allows access for demonstration
-                if (matched) {
-                    activeVerifiedUser = matched;
-                    opinionVerifiedStudentName.innerText = activeVerifiedUser.name;
-                    opinionVerifiedStudentRoll.style.display = 'inline-block';
-                    opinionVerifiedStudentRoll.innerText = `Roll: ${activeVerifiedUser.roll} (${activeVerifiedUser.shift} Shift)`;
-                    btnOpinionViewPass.style.display = 'inline-block';
-                    opinionAvatarLetter.innerText = activeVerifiedUser.name.substring(0, 2).toUpperCase();
-                } else {
-                    activeVerifiedUser = {
-                        name: 'Guest Graduate',
-                        roll: 'Guest',
-                        shift: 'N/A',
-                        email: tempEmailVal
-                    };
-                    opinionVerifiedStudentName.innerText = activeVerifiedUser.name;
-                    opinionVerifiedStudentRoll.style.display = 'inline-block';
-                    opinionVerifiedStudentRoll.innerText = `Guest (${tempEmailVal})`;
-                    btnOpinionViewPass.style.display = 'none';
-                    opinionAvatarLetter.innerText = 'GG';
+                if (otpVal !== '123456') {
+                    alert('Invalid verification code. Enter 123456 to simulate.');
+                    return;
                 }
+
+                // Match user session details
+                opinionVerifiedStudentName.innerText = activeVerifiedUser.name;
+                opinionVerifiedStudentRoll.style.display = 'inline-block';
+                opinionVerifiedStudentRoll.innerText = `Roll: ${activeVerifiedUser.roll} (${activeVerifiedUser.shift} Shift)`;
+                btnOpinionViewPass.style.display = 'inline-block';
+                opinionAvatarLetter.innerText = activeVerifiedUser.name.substring(0, 2).toUpperCase();
 
                 // Unlock UI
                 opinionBlockerOverlay.classList.add('unlocked');
@@ -3074,7 +3012,8 @@
         // Log out
         btnOpinionLogout.addEventListener('click', () => {
             activeVerifiedUser = null;
-            tempEmailVal = '';
+            tempNameVal = '';
+            tempRollVal = '';
 
             // Relock UI
             opinionBlockerOverlay.classList.remove('unlocked');
@@ -3085,9 +3024,10 @@
             opinionPostTextarea.value = '';
             opinionCharCountLbl.innerText = '0 / 250 characters';
 
-            opinionAuthEmail.value = '';
+            opinionAuthName.value = '';
+            opinionAuthRoll.value = '';
             opinionAuthOtp.value = '';
-            opinionEmailStep.style.display = 'block';
+            opinionDetailsStep.style.display = 'block';
             opinionOtpStep.style.display = 'none';
 
             triggerSystemToast('Account session locked successfully.');
@@ -3248,7 +3188,7 @@
 
             // Update stats
             document.getElementById('stat-total-count').innerText = list.length;
-            document.getElementById('stat-total-revenue').innerText = `${list.length * 1000} BDT`;
+            document.getElementById('stat-total-revenue').innerText = `${list.length * 1010} BDT`;
 
             const tbody = document.getElementById('admin-data-grid-body');
 
