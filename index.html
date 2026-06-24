@@ -1613,8 +1613,9 @@
 
             /* Premium mobile responsiveness spacing */
             .shift-selection-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                max-width: 100%;
             }
             .selection-grid {
                 gap: 8px;
@@ -1624,11 +1625,8 @@
                 font-size: 0.82rem;
             }
             .shift-card {
-                padding: 12px 14px;
-            }
-            .shift-card-icon {
-                width: 34px;
-                height: 34px;
+                padding: 10px;
+                justify-content: center;
             }
         }
 
@@ -1945,30 +1943,12 @@
                                     Academic Shift selection is required.
                                 </div>
                             </div>
-                            <div class="shift-selection-grid">
-                                <div class="shift-card" data-shift="1st">
-                                    <div class="shift-card-icon">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-                                    </div>
-                                    <div class="shift-card-details">
-                                        <div class="shift-card-title">1st Shift</div>
-                                        <div class="shift-card-desc">Morning Session</div>
-                                    </div>
-                                    <div class="shift-card-badge">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                                    </div>
+                            <div class="shift-selection-grid" style="grid-template-columns: 1fr 1fr; max-width: 320px; gap: 10px;">
+                                <div class="shift-card" data-shift="1st" style="padding: 10px; justify-content: center; border-radius: 8px;">
+                                    <div class="shift-card-title" style="font-size: 0.85rem;">1st Shift</div>
                                 </div>
-                                <div class="shift-card" data-shift="2nd">
-                                    <div class="shift-card-icon">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                                    </div>
-                                    <div class="shift-card-details">
-                                        <div class="shift-card-title">2nd Shift</div>
-                                        <div class="shift-card-desc">Day Session</div>
-                                    </div>
-                                    <div class="shift-card-badge">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                                    </div>
+                                <div class="shift-card" data-shift="2nd" style="padding: 10px; justify-content: center; border-radius: 8px;">
+                                    <div class="shift-card-title" style="font-size: 0.85rem;">2nd Shift</div>
                                 </div>
                             </div>
                         </div>
@@ -2995,39 +2975,16 @@
             const bkashNo = document.getElementById('ticket-bkash-no').innerText;
             const payId = document.getElementById('ticket-payment-id').innerText;
             const txid = document.getElementById('ticket-txid').innerText;
-            const dateVal = document.getElementById('ticket-date').innerText;
             const barcode = document.getElementById('ticket-barcode-num').innerText;
-            const studentId = document.getElementById('ticket-student-id').innerText;
 
             const canvasObj = document.createElement('canvas');
-            canvasObj.width = 620;
-            canvasObj.height = 490;
+            canvasObj.width = 400;
+            canvasObj.height = 570;
             const rctx = canvasObj.getContext('2d');
 
-            // Draw Background (Pristine White Paper)
-            rctx.fillStyle = '#ffffff';
-            rctx.fillRect(0, 0, 620, 490);
-
-            // Dashed right vertical border simulating a tear-off booklet edge
-            rctx.strokeStyle = '#cbd5e1';
-            rctx.lineWidth = 1.5;
-            rctx.setLineDash([4, 4]);
-            rctx.beginPath();
-            rctx.moveTo(610, 0);
-            rctx.lineTo(610, 490);
-            rctx.stroke();
-            rctx.setLineDash([]); // reset
-
-            // Top gradient bar
-            const gradient = rctx.createLinearGradient(0, 0, 620, 0);
-            gradient.addColorStop(0, '#06b6d4');
-            gradient.addColorStop(1, '#3b82f6');
-            rctx.fillStyle = gradient;
-            rctx.fillRect(0, 0, 620, 6);
-
-            // Navy Header Block
-            rctx.fillStyle = '#0f172a';
-            rctx.fillRect(0, 6, 620, 104);
+            // Draw outer background matching modal body color for notch overflow transparency simulation
+            rctx.fillStyle = '#f8fafc';
+            rctx.fillRect(0, 0, 400, 570);
 
             // Rounded rectangle helper
             function drawRoundedRect(ctx, x, y, width, height, radius, fill, stroke, strokeColor, strokeWidth) {
@@ -3055,96 +3012,89 @@
                 ctx.restore();
             }
 
-            // Header Event Name
+            // Draw Ticket Card Body
+            drawRoundedRect(rctx, 10, 10, 380, 550, 12, '#ffffff', true, '#cbd5e1', 1);
+
+            // Draw Verified Pass Badge at the top center
+            drawRoundedRect(rctx, 135, 28, 130, 24, 12, '#ecfdf5', true, '#a7f3d0', 1.2);
+            
             rctx.textAlign = 'center';
-            rctx.fillStyle = '#ffffff';
-            rctx.font = '850 14px "Plus Jakarta Sans", sans-serif';
-            rctx.fillText('BPI ELECTRONICS FAREWELL 2026', 305, 42);
+            rctx.fillStyle = '#059669';
+            rctx.font = '800 9px "Plus Jakarta Sans", sans-serif';
+            rctx.fillText('✔ VERIFIED PASS', 200, 43);
 
-            // Subheader
-            rctx.fillStyle = '#94a3b8';
-            rctx.font = '700 9px "Plus Jakarta Sans", sans-serif';
-            rctx.fillText('JOINT SHIFT ASSEMBLY • SESSION 2022-23', 305, 58);
-
-            // Verified Pass Pill Badge inside header
-            drawRoundedRect(rctx, 235, 74, 140, 22, 11, 'rgba(16, 185, 129, 0.15)', true, '#10b981', 1.2);
-            rctx.fillStyle = '#10b981';
-            rctx.font = '800 8.5px "Plus Jakarta Sans", sans-serif';
-            rctx.fillText('✔ VERIFIED PASS', 305, 89);
-
-            // Left Column: Student Details
-            rctx.textAlign = 'left';
-            rctx.fillStyle = '#0f172a';
-            rctx.font = '800 9.5px "Plus Jakarta Sans", sans-serif';
-            rctx.fillText('STUDENT DETAILS', 35, 142);
-
-            // Underline below title
-            rctx.strokeStyle = '#0f172a';
-            rctx.lineWidth = 1.8;
-            rctx.beginPath();
-            rctx.moveTo(35, 148);
-            rctx.lineTo(275, 148);
-            rctx.stroke();
-
+            // Draw Student details (labels on left, values on right)
             const studentData = [
-                { label: 'RECEIPT ID', val: rcptId, bold: true },
-                { label: 'FULL NAME', val: name.toUpperCase(), bold: true },
-                { label: 'BOARD ROLL', val: roll, bold: true },
-                { label: 'MOBILE NUMBER', val: phone, bold: false },
-                { label: 'SHIFT INFO', val: shift, bold: false },
-                { label: 'JERSEY & T-SHIRT', val: `${jersey} / ${tshirt}`, bold: true }
+                { label: 'RECEIPT ID', val: rcptId, bold: true, color: '#0f172a' },
+                { label: 'STUDENT NAME', val: name.toUpperCase(), bold: true, color: '#0f172a' },
+                { label: 'BOARD ROLL', val: roll, bold: true, color: '#0f172a' },
+                { label: 'MOBILE NUMBER', val: phone, bold: false, color: '#0f172a' },
+                { label: 'SHIFT INFO', val: shift, bold: false, color: '#0f172a' }
             ];
 
-            let rowY = 164;
+            let rowY = 82;
             studentData.forEach(d => {
-                rctx.fillStyle = '#94a3b8';
+                rctx.textAlign = 'left';
+                rctx.fillStyle = '#64748b';
                 rctx.font = '700 8.5px "Plus Jakarta Sans", sans-serif';
                 rctx.fillText(d.label, 35, rowY);
 
-                rctx.fillStyle = '#0f172a';
+                rctx.textAlign = 'right';
+                rctx.fillStyle = d.color;
                 rctx.font = d.bold ? '800 10.5px "Plus Jakarta Sans", sans-serif' : '600 10.5px "Plus Jakarta Sans", sans-serif';
-                rctx.fillText(d.val, 35, rowY + 14);
-                rowY += 32;
+                rctx.fillText(d.val, 365, rowY);
+
+                rowY += 27;
             });
 
-            // Vertical separating dotted line
+            // Perforated Tear-off Divider
             rctx.strokeStyle = '#cbd5e1';
-            rctx.lineWidth = 1;
-            rctx.setLineDash([3, 3]);
+            rctx.lineWidth = 1.5;
+            rctx.setLineDash([4, 4]);
             rctx.beginPath();
-            rctx.moveTo(295, 130);
-            rctx.lineTo(295, 340);
+            rctx.moveTo(10, 222);
+            rctx.lineTo(390, 222);
             rctx.stroke();
             rctx.setLineDash([]); // reset
 
-            // Right Column: Payment Info
-            rctx.fillStyle = '#0f172a';
-            rctx.font = '800 9.5px "Plus Jakarta Sans", sans-serif';
-            rctx.fillText('PAYMENT INFO', 315, 142);
-
-            // Underline below title
-            rctx.strokeStyle = '#0f172a';
-            rctx.lineWidth = 1.8;
+            // Draw Left Notch
+            rctx.fillStyle = '#f8fafc';
             rctx.beginPath();
-            rctx.moveTo(315, 148);
-            rctx.lineTo(575, 148);
+            rctx.arc(10, 222, 10, 0, 2 * Math.PI);
+            rctx.fill();
+            rctx.strokeStyle = '#cbd5e1';
+            rctx.lineWidth = 1.2;
+            rctx.beginPath();
+            rctx.arc(10, 222, 10, -Math.PI/2, Math.PI/2);
             rctx.stroke();
 
+            // Draw Right Notch
+            rctx.fillStyle = '#f8fafc';
+            rctx.beginPath();
+            rctx.arc(390, 222, 10, 0, 2 * Math.PI);
+            rctx.fill();
+            rctx.beginPath();
+            rctx.arc(390, 222, 10, Math.PI/2, 3*Math.PI/2);
+            rctx.stroke();
+
+            // Draw Payment details (labels on left, values on right)
             const paymentData = [
-                { label: 'METHOD', val: 'bKash', color: '#db2777', bold: true },
-                { label: 'PAID FROM ACCOUNT', val: bkashNo, color: '#0f172a', bold: false },
-                { label: 'TRANSACTION ID', val: txid, color: '#059669', bold: true },
-                { label: 'PAYMENT ID', val: payId, color: '#64748b', bold: false, isPayId: true },
-                { label: 'PAID TICKET FEE', val: '1,010 BDT', color: '#059669', bold: true, isFee: true },
-                { label: 'PAYMENT DATE', val: dateVal, color: '#0f172a', bold: false }
+                { label: 'JERSEY SIZE', val: jersey, bold: true, color: '#0f172a' },
+                { label: 'T-SHIRT SIZE', val: tshirt, bold: true, color: '#0f172a' },
+                { label: 'BKASH NUMBER', val: bkashNo, bold: true, color: '#0f172a' },
+                { label: 'PAYMENT ID', val: payId, bold: false, color: '#64748b', isPayId: true },
+                { label: 'TRANSACTION ID', val: txid, bold: true, color: '#0f172a' },
+                { label: 'PAID TICKET FEE', val: '1,010 BDT', bold: true, color: '#059669', isFee: true }
             ];
 
-            rowY = 164;
+            rowY = 250;
             paymentData.forEach(d => {
-                rctx.fillStyle = '#94a3b8';
+                rctx.textAlign = 'left';
+                rctx.fillStyle = '#64748b';
                 rctx.font = '700 8.5px "Plus Jakarta Sans", sans-serif';
-                rctx.fillText(d.label, 315, rowY);
+                rctx.fillText(d.label, 35, rowY);
 
+                rctx.textAlign = 'right';
                 rctx.fillStyle = d.color;
                 if (d.isFee) {
                     rctx.font = '800 11px "Plus Jakarta Sans", sans-serif';
@@ -3154,65 +3104,41 @@
                     rctx.font = d.bold ? '800 10.5px "Plus Jakarta Sans", sans-serif' : '600 10.5px "Plus Jakarta Sans", sans-serif';
                 }
 
-                // Truncate payment ID if too long
-                let textVal = d.val;
-                if (d.isPayId && textVal.length > 25) {
-                    textVal = textVal.substring(0, 22) + '...';
+                // Truncate Payment ID if it overflows
+                let valText = d.val;
+                if (d.isPayId && valText.length > 24) {
+                    valText = valText.substring(0, 21) + '...';
                 }
-                rctx.fillText(textVal, 315, rowY + 14);
-                rowY += 32;
+                rctx.fillText(valText, 365, rowY);
+
+                rowY += 27;
             });
 
-            // Dashed Divider line
-            rctx.strokeStyle = '#cbd5e1';
-            rctx.lineWidth = 1.5;
-            rctx.setLineDash([4, 4]);
-            rctx.beginPath();
-            rctx.moveTo(0, 360);
-            rctx.lineTo(620, 360);
-            rctx.stroke();
-            rctx.setLineDash([]); // reset
-
-            // Draw Left Notch
-            rctx.fillStyle = '#f8fafc'; // Matches outer background color
-            rctx.beginPath();
-            rctx.arc(0, 360, 10, 0, 2 * Math.PI);
-            rctx.fill();
-            rctx.strokeStyle = '#cbd5e1';
-            rctx.lineWidth = 1.2;
-            rctx.stroke();
-
-            // Draw Right Notch
-            rctx.fillStyle = '#f8fafc';
-            rctx.beginPath();
-            rctx.arc(620, 360, 10, 0, 2 * Math.PI);
-            rctx.fill();
-            rctx.stroke();
-
-            // Draw Barcode lines
+            // Draw Barcode lines (centered)
             rctx.fillStyle = '#0f172a';
             const barWidths = [2, 1, 3, 1, 2, 4, 1, 3, 2, 1, 4, 2, 1, 3, 1, 2, 3, 4, 1, 2];
-            let curX = 274; // centered (total width = 62)
+            let curX = 160; // centered (total barcode width = 80px)
             barWidths.forEach((w, idx) => {
                 if (idx % 2 === 0) {
-                    rctx.fillRect(curX, 380, w, 30);
+                    rctx.fillRect(curX, 435, w, 28);
                 }
                 curX += w + 1; // gap
             });
 
+            // Barcode number text
             rctx.textAlign = 'center';
             rctx.fillStyle = '#64748b';
-            rctx.font = '700 8.5px "Courier New", monospace';
-            rctx.fillText(barcode, 305, 424);
+            rctx.font = '700 8px "Courier New", monospace';
+            rctx.fillText(barcode, 200, 477);
 
             // Footer disclaimers
             rctx.fillStyle = '#94a3b8';
-            rctx.font = 'italic 500 8.5px "Plus Jakarta Sans", sans-serif';
-            rctx.fillText('This is a System Generated Receipt.', 305, 450);
+            rctx.font = 'italic 500 8px "Plus Jakarta Sans", sans-serif';
+            rctx.fillText('This is a System Generated Receipt Pass.', 200, 502);
 
             rctx.fillStyle = '#64748b';
-            rctx.font = '700 9px "Plus Jakarta Sans", sans-serif';
-            rctx.fillText('July 13, 2026 • Nisarga Park', 305, 465);
+            rctx.font = '700 8.5px "Plus Jakarta Sans", sans-serif';
+            rctx.fillText('BPI Electronics Farewell 2026 • Nisarga Park', 200, 517);
 
             // Download trigger
             const downloadLink = document.createElement('a');
