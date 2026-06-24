@@ -1628,6 +1628,136 @@
         .glowing-new {
             animation: glowFadeIn 2.5s ease-out forwards;
         }
+
+        /* Premium Inline Validation Styles */
+        .inline-error-msg {
+            color: #dc2626;
+            font-size: 0.76rem;
+            font-weight: 600;
+            margin-top: 5px;
+            display: none;
+            align-items: center;
+            gap: 5px;
+            animation: fadeInError 0.2s ease forwards;
+        }
+        
+        @keyframes fadeInError {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .input-error-border {
+            border-color: #dc2626 !important;
+            background-color: #fef2f2 !important;
+        }
+
+        /* Warning Banner/Box for Modals */
+        .modal-warning-banner {
+            background: #fef2f2;
+            border: 1px solid #fee2e2;
+            border-left: 4px solid #dc2626;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-bottom: 15px;
+            color: #991b1b;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+            animation: fadeInError 0.25s ease forwards;
+        }
+
+        /* Improved Shift Cards styles */
+        .shift-selection-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .shift-card {
+            background: var(--bg-deep);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .shift-card:hover {
+            border-color: var(--text-primary);
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+            transform: translateY(-2px);
+        }
+
+        .shift-card.active {
+            border-color: var(--text-primary);
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.06);
+        }
+
+        .shift-card-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #f1f5f9;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+        }
+
+        .shift-card.active .shift-card-icon {
+            background: var(--text-primary);
+            color: #ffffff;
+        }
+
+        .shift-card-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .shift-card-title {
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--text-primary);
+        }
+
+        .shift-card-desc {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+        }
+
+        .shift-card-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--text-primary);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.25s ease;
+        }
+
+        .shift-card.active .shift-card-badge {
+            opacity: 1;
+            transform: scale(1);
+        }
     </style>
 </head>
 <body>
@@ -1735,31 +1865,76 @@
                 <!-- Step 2: Student Details Form -->
                 <div class="wizard-pane" id="pane-2">
                     <div class="form-pane">
+                        <!-- Warning Banner for Step 2 -->
+                        <div id="details-error-banner" class="modal-warning-banner"></div>
+
                         <div class="form-group">
                             <label class="form-label">Student Full Name</label>
                             <input type="text" id="stu-name-input" class="form-input" placeholder="Enter your full name">
+                            <div id="err-stu-name" class="inline-error-msg">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                Full Name is required.
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Board Roll Number</label>
                             <input type="number" id="stu-roll-input" class="form-input" placeholder="e.g. 508493">
+                            <div id="err-stu-roll" class="inline-error-msg">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                Valid Board Roll is required (minimum 5 digits).
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Student Email Address</label>
                             <input type="email" id="stu-email-input" class="form-input" placeholder="e.g. name@student.com">
+                            <div id="err-stu-email" class="inline-error-msg">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                Please enter a valid Email Address.
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Mobile Number</label>
                             <input type="tel" id="stu-phone-input" class="form-input" placeholder="e.g. 01XXXXXXXXX" maxlength="11">
+                            <div id="err-stu-phone" class="inline-error-msg">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                Please enter a valid 11-digit Mobile Number.
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Academic Shift</label>
-                            <div class="toggle-switch-container">
-                                <div class="toggle-btn active" data-shift="1st">1st Shift</div>
-                                <div class="toggle-btn" data-shift="2nd">2nd Shift</div>
+                            <div class="shift-selection-grid">
+                                <div class="shift-card" data-shift="1st">
+                                    <div class="shift-card-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                                    </div>
+                                    <div class="shift-card-details">
+                                        <div class="shift-card-title">1st Shift</div>
+                                        <div class="shift-card-desc">Morning Session</div>
+                                    </div>
+                                    <div class="shift-card-badge">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                    </div>
+                                </div>
+                                <div class="shift-card" data-shift="2nd">
+                                    <div class="shift-card-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                                    </div>
+                                    <div class="shift-card-details">
+                                        <div class="shift-card-title">2nd Shift</div>
+                                        <div class="shift-card-desc">Day Session</div>
+                                    </div>
+                                    <div class="shift-card-badge">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="err-stu-shift" class="inline-error-msg">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                Academic Shift selection is required.
                             </div>
                         </div>
                     </div>
@@ -1768,14 +1943,21 @@
                 <!-- Step 3: Merchandise Sizes grids -->
                 <div class="wizard-pane" id="pane-3">
                     <div class="form-pane">
+                        <!-- Warning Banner for Step 3 -->
+                        <div id="sizes-error-banner" class="modal-warning-banner"></div>
+
                         <div class="form-group">
                             <label class="form-label">Select Premium Departmental Jersey Size</label>
                             <div class="selection-grid" id="jersey-sizes-grid">
                                 <div class="grid-item-btn" data-size="S">S</div>
-                                <div class="grid-item-btn active" data-size="M">M</div>
+                                <div class="grid-item-btn" data-size="M">M</div>
                                 <div class="grid-item-btn" data-size="L">L</div>
                                 <div class="grid-item-btn" data-size="XL">XL</div>
                                 <div class="grid-item-btn" data-size="XXL">XXL</div>
+                            </div>
+                            <div id="err-jersey-size" class="inline-error-msg">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                Jersey size selection is required.
                             </div>
                         </div>
 
@@ -1784,9 +1966,13 @@
                             <div class="selection-grid" id="tshirt-sizes-grid">
                                 <div class="grid-item-btn" data-size="S">S</div>
                                 <div class="grid-item-btn" data-size="M">M</div>
-                                <div class="grid-item-btn active" data-size="L">L</div>
+                                <div class="grid-item-btn" data-size="L">L</div>
                                 <div class="grid-item-btn" data-size="XL">XL</div>
                                 <div class="grid-item-btn" data-size="XXL">XXL</div>
+                            </div>
+                            <div id="err-tshirt-size" class="inline-error-msg">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                T-Shirt size selection is required.
                             </div>
                         </div>
                     </div>
@@ -1870,18 +2056,27 @@
                     <div class="lock-headline">Locked Opinion Wall</div>
                     <div class="lock-subtext">Access is reserved for registered graduates. Verify your Full Name and Board Roll to unlock.</div>
 
-                    <div class="opinion-auth-row" style="flex-direction: column; width: 100%; max-width: 400px; gap: 15px;">
+                    <!-- Warning Banner for Opinion Wall -->
+                    <div id="opinion-error-banner" class="modal-warning-banner" style="width: 100%; max-width: 400px; margin-bottom: 15px;"></div>
+
+                    <div class="opinion-auth-row" style="flex-direction: column; width: 100%; max-width: 400px; gap: 12px;">
                         <!-- Details Input Phase -->
                         <div id="opinion-details-step" style="width: 100%;">
-                            <input type="text" id="opinion-auth-name" class="form-input" placeholder="Enter your registered name" style="margin-bottom: 12px;">
-                            <input type="number" id="opinion-auth-roll" class="form-input" placeholder="Enter your board roll number" style="margin-bottom: 12px;">
-                            <button type="button" id="btn-opinion-send-otp" class="btn-premium" style="width: 100%; height: 46px;">Verify Details</button>
-                        </div>
-                        <!-- OTP Code Phase -->
-                        <div id="opinion-otp-step" style="width: 100%; display: none;">
-                            <p id="opinion-otp-hint" style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px; text-align: center;">Mock verification code sent. Enter 123456 to simulate.</p>
-                            <input type="text" id="opinion-auth-otp" class="form-input" placeholder="Enter 6-digit OTP" style="margin-bottom: 12px; text-align: center; letter-spacing: 4px;" maxlength="6">
-                            <button type="button" id="btn-opinion-verify-otp" class="btn-premium" style="width: 100%; height: 46px;">Verify & Unlock</button>
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <input type="text" id="opinion-auth-name" class="form-input" placeholder="Enter your registered full name" style="margin-bottom: 0;">
+                                <div id="err-opinion-name" class="inline-error-msg">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    Registered Full Name is required.
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <input type="number" id="opinion-auth-roll" class="form-input" placeholder="Enter your board roll number" style="margin-bottom: 0;">
+                                <div id="err-opinion-roll" class="inline-error-msg">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    Board Roll number is required.
+                                </div>
+                            </div>
+                            <button type="button" id="btn-opinion-verify-direct" class="btn-premium" style="width: 100%; height: 46px;">Verify & Unlock Wall</button>
                         </div>
                     </div>
                 </div>
@@ -1944,6 +2139,9 @@
                 <div class="lock-headline">Administrative Access Key</div>
                 <div class="lock-subtext">Access is strictly monitored. Enter the security key to load registrations.</div>
 
+                <!-- Warning Banner for Admin Login -->
+                <div id="admin-error-banner" class="modal-warning-banner" style="margin-bottom: 15px;"></div>
+
                 <div class="form-group">
                     <input type="password" id="admin-passcode-input" class="form-input" placeholder="Security Passcode (Hint: admin123)" style="text-align: center;">
                 </div>
@@ -1999,8 +2197,9 @@
                         </table>
                     </div>
 
-                    <div style="text-align: right;">
-                        <button type="button" id="btn-admin-export-csv" class="btn-premium">Export CSV</button>
+                    <div style="text-align: right; display: flex; justify-content: flex-end; gap: 12px; margin-top: 15px;">
+                        <button type="button" id="btn-admin-export-excel" class="btn-premium btn-secondary">Export Excel</button>
+                        <button type="button" id="btn-admin-export-pdf" class="btn-premium">Export PDF</button>
                     </div>
                 </div>
 
@@ -2037,6 +2236,9 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Inline Error Banner inside bKash modal -->
+            <div id="bkash-error-banner" style="background:#fef2f2; color:#991b1b; font-size:0.75rem; padding:8px 12px; border-radius:6px; margin: 12px 25px 0 25px; border:1px solid #fee2e2; border-left:3px solid #dc2626; display:none; align-items:center; gap:8px;"></div>
 
             <!-- bKash Content phases -->
             <div class="bkash-body-content">
@@ -2211,6 +2413,8 @@
     <div class="admin-dialog-overlay" id="admin-edit-modal">
         <div class="admin-dialog-card">
             <div class="admin-dialog-header">Edit Student Record</div>
+            <!-- Warning Banner for Admin Edit -->
+            <div id="edit-error-banner" class="modal-warning-banner" style="margin: 15px 25px 0 25px;"></div>
             <div class="admin-dialog-body">
                 <input type="hidden" id="edit-original-roll">
                 <div class="form-group">
@@ -2239,6 +2443,8 @@
     <div class="admin-dialog-overlay" id="admin-delete-modal">
         <div class="admin-dialog-card">
             <div class="admin-dialog-header" style="color: var(--danger-color);">Confirm Deletion Request</div>
+            <!-- Warning Banner for Admin Delete -->
+            <div id="delete-error-banner" class="modal-warning-banner" style="margin: 15px 25px 0 25px;"></div>
             <div class="admin-dialog-body">
                 <input type="hidden" id="delete-target-roll">
                 <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.4;">
@@ -2395,33 +2601,39 @@
         const btnWizardBack = document.getElementById('btn-wizard-back');
         const btnWizardNext = document.getElementById('btn-wizard-next');
 
-        let selectedShift = '1st';
-        let selectedJerseySize = 'M';
-        let selectedTshirtSize = 'L';
+        let selectedShift = null;
+        let selectedJerseySize = null;
+        let selectedTshirtSize = null;
 
         // Toggle shift controls
-        const toggleShiftBtns = document.querySelectorAll('.toggle-btn');
-        toggleShiftBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                toggleShiftBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                selectedShift = btn.getAttribute('data-shift');
+        const shiftCards = document.querySelectorAll('.shift-card');
+        shiftCards.forEach(card => {
+            card.addEventListener('click', () => {
+                shiftCards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                selectedShift = card.getAttribute('data-shift');
+                // Clear inline error on selection
+                document.getElementById('err-stu-shift').style.display = 'none';
             });
         });
 
         // Size grids binds
-        function bindSizeGridButtons(containerId, setterFn) {
+        function bindSizeGridButtons(containerId, setterFn, errorId) {
             const btns = document.querySelectorAll(`#${containerId} .grid-item-btn`);
             btns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     btns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     setterFn(btn.getAttribute('data-size'));
+                    // Clear inline error on selection
+                    if (errorId) {
+                        document.getElementById(errorId).style.display = 'none';
+                    }
                 });
             });
         }
-        bindSizeGridButtons('jersey-sizes-grid', (s) => selectedJerseySize = s);
-        bindSizeGridButtons('tshirt-sizes-grid', (s) => selectedTshirtSize = s);
+        bindSizeGridButtons('jersey-sizes-grid', (s) => selectedJerseySize = s, 'err-jersey-size');
+        bindSizeGridButtons('tshirt-sizes-grid', (s) => selectedTshirtSize = s, 'err-tshirt-size');
 
         function updateWizardUI() {
             // Update step panes
@@ -2479,10 +2691,75 @@
                 const roll = document.getElementById('stu-roll-input').value.trim();
                 const email = document.getElementById('stu-email-input').value.trim();
                 const phone = document.getElementById('stu-phone-input').value.trim();
-                if (!name) { alert('Full Name is required.'); return; }
-                if (!roll || roll.length < 5) { alert('Valid Board Roll is required.'); return; }
-                if (!email || !email.includes('@')) { alert('Please enter a valid Email Address.'); return; }
-                if (!phone || phone.length < 11) { alert('Please enter a valid 11-digit Mobile Number.'); return; }
+                
+                // Clear previous errors
+                document.querySelectorAll('#pane-2 .inline-error-msg').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('#pane-2 .form-input').forEach(el => el.classList.remove('input-error-border'));
+                const detailsErrorBanner = document.getElementById('details-error-banner');
+                detailsErrorBanner.style.display = 'none';
+
+                let hasErrors = false;
+
+                if (!name) {
+                    document.getElementById('stu-name-input').classList.add('input-error-border');
+                    document.getElementById('err-stu-name').style.display = 'flex';
+                    hasErrors = true;
+                }
+                if (!roll || roll.length < 5) {
+                    document.getElementById('stu-roll-input').classList.add('input-error-border');
+                    document.getElementById('err-stu-roll').style.display = 'flex';
+                    hasErrors = true;
+                }
+                if (!email || !email.includes('@')) {
+                    document.getElementById('stu-email-input').classList.add('input-error-border');
+                    document.getElementById('err-stu-email').style.display = 'flex';
+                    hasErrors = true;
+                }
+                if (!phone || phone.length < 11) {
+                    document.getElementById('stu-phone-input').classList.add('input-error-border');
+                    document.getElementById('err-stu-phone').style.display = 'flex';
+                    hasErrors = true;
+                }
+                if (!selectedShift) {
+                    document.getElementById('err-stu-shift').style.display = 'flex';
+                    hasErrors = true;
+                }
+
+                if (hasErrors) {
+                    detailsErrorBanner.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <span>Please correct the highlighted errors below before proceeding.</span>
+                    `;
+                    detailsErrorBanner.style.display = 'flex';
+                    return;
+                }
+            }
+            
+            if (wizardCurrentStep === 3) {
+                // Validation checks for size selections
+                document.querySelectorAll('#pane-3 .inline-error-msg').forEach(el => el.style.display = 'none');
+                const sizesErrorBanner = document.getElementById('sizes-error-banner');
+                sizesErrorBanner.style.display = 'none';
+
+                let hasErrors = false;
+
+                if (!selectedJerseySize) {
+                    document.getElementById('err-jersey-size').style.display = 'flex';
+                    hasErrors = true;
+                }
+                if (!selectedTshirtSize) {
+                    document.getElementById('err-tshirt-size').style.display = 'flex';
+                    hasErrors = true;
+                }
+
+                if (hasErrors) {
+                    sizesErrorBanner.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <span>Please select both Jersey and T-Shirt sizes before proceeding.</span>
+                    `;
+                    sizesErrorBanner.style.display = 'flex';
+                    return;
+                }
             }
 
             if (wizardCurrentStep < wizardTotalSteps) {
@@ -2542,11 +2819,23 @@
             bkashModal.classList.remove('active');
         });
 
+        // Helper to reset bKash error banner
+        function resetBkashError() {
+            document.getElementById('bkash-error-banner').style.display = 'none';
+        }
+
         btnBkashProceed.addEventListener('click', () => {
+            const errorBanner = document.getElementById('bkash-error-banner');
+            resetBkashError();
+
             if (bkashFlowPhase === 1) {
                 const phone = document.getElementById('bkash-input-phone').value.trim();
                 if (!phone || phone.length < 11) {
-                    alert('Please enter a valid bKash wallet number.');
+                    errorBanner.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <span>Please enter a valid 11-digit bKash wallet number.</span>
+                    `;
+                    errorBanner.style.display = 'flex';
                     return;
                 }
                 userBkashAccount = phone;
@@ -2554,14 +2843,22 @@
             } else if (bkashFlowPhase === 2) {
                 const otpVal = document.getElementById('bkash-input-otp').value.trim();
                 if (otpVal !== '123456') {
-                    alert('Invalid verification code. Enter 123456 to simulate official token flow OTP.');
+                    errorBanner.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <span>Invalid verification code. Enter 123456 to simulate.</span>
+                    `;
+                    errorBanner.style.display = 'flex';
                     return;
                 }
                 showBkashView(3);
             } else if (bkashFlowPhase === 3) {
                 const pinVal = document.getElementById('bkash-input-pin').value.trim();
                 if (!pinVal || pinVal.length < 5) {
-                    alert('Please enter your 5-digit PIN.');
+                    errorBanner.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <span>Please enter your 5-digit PIN.</span>
+                    `;
+                    errorBanner.style.display = 'flex';
                     return;
                 }
                 showBkashView(4);
@@ -2900,13 +3197,10 @@
         const opinionCardWrapper = document.getElementById('opinion-timeline-card-wrapper');
 
         const opinionDetailsStep = document.getElementById('opinion-details-step');
-        const opinionOtpStep = document.getElementById('opinion-otp-step');
         const opinionAuthName = document.getElementById('opinion-auth-name');
         const opinionAuthRoll = document.getElementById('opinion-auth-roll');
-        const btnOpinionSendOtp = document.getElementById('btn-opinion-send-otp');
-        const opinionAuthOtp = document.getElementById('opinion-auth-otp');
-        const btnOpinionVerifyOtp = document.getElementById('btn-opinion-verify-otp');
-        const opinionOtpHint = document.getElementById('opinion-otp-hint');
+        const btnOpinionVerifyDirect = document.getElementById('btn-opinion-verify-direct');
+        const opinionErrorBanner = document.getElementById('opinion-error-banner');
 
         const opinionPostTextarea = document.getElementById('opinion-post-textarea');
         const btnPostOpinionSubmit = document.getElementById('btn-post-opinion-submit');
@@ -2919,79 +3213,70 @@
         const btnOpinionLogout = document.getElementById('btn-opinion-logout');
 
         let activeVerifiedUser = null; // Verified record
-        let tempNameVal = '';
-        let tempRollVal = '';
 
-        // Click Verify Details (Send OTP)
-        btnOpinionSendOtp.addEventListener('click', async () => {
+        // Click Verify Details directly
+        btnOpinionVerifyDirect.addEventListener('click', async () => {
             const nameVal = opinionAuthName.value.trim();
             const rollVal = opinionAuthRoll.value.trim();
             
+            // Clear previous errors
+            opinionErrorBanner.style.display = 'none';
+            document.querySelectorAll('#opinion-blocker-overlay .inline-error-msg').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('#opinion-blocker-overlay .form-input').forEach(el => el.classList.remove('input-error-border'));
+
+            let hasErrors = false;
+
             if (!nameVal) {
-                alert('Please enter your full name.');
-                return;
+                opinionAuthName.classList.add('input-error-border');
+                document.getElementById('err-opinion-name').style.display = 'flex';
+                hasErrors = true;
             }
             if (!rollVal) {
-                alert('Please enter your board roll.');
+                opinionAuthRoll.classList.add('input-error-border');
+                document.getElementById('err-opinion-roll').style.display = 'flex';
+                hasErrors = true;
+            }
+
+            if (hasErrors) {
+                opinionErrorBanner.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span>Please enter your registered Name and Board Roll.</span>
+                `;
+                opinionErrorBanner.style.display = 'flex';
                 return;
             }
 
-            btnOpinionSendOtp.innerText = 'Verifying...';
-            btnOpinionSendOtp.disabled = true;
+            btnOpinionVerifyDirect.innerText = 'Verifying...';
+            btnOpinionVerifyDirect.disabled = true;
 
             const registrations = await AppDB.getRegistrations();
             const matched = registrations.find(r => String(r.roll) === String(rollVal));
 
             setTimeout(() => {
-                btnOpinionSendOtp.innerText = 'Verify Details';
-                btnOpinionSendOtp.disabled = false;
+                btnOpinionVerifyDirect.innerText = 'Verify & Unlock Wall';
+                btnOpinionVerifyDirect.disabled = false;
 
                 if (!matched) {
-                    alert('Registration record not found for this Board Roll. Please register in the Farewell Portal first!');
+                    opinionErrorBanner.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <span>Board Roll not found. Please register in the Farewell Portal first!</span>
+                    `;
+                    opinionErrorBanner.style.display = 'flex';
                     return;
                 }
 
-                // If matched, we proceed to OTP code simulation
-                activeVerifiedUser = matched;
-                tempNameVal = nameVal;
-                tempRollVal = rollVal;
-
-                // Format mobile number for display: e.g. 018*****072
-                let phone = matched.phone || '';
-                let formattedPhone = phone;
-                if (phone.length >= 11) {
-                    formattedPhone = phone.substring(0, 3) + '*****' + phone.substring(phone.length - 3);
-                }
-
-                opinionOtpHint.innerText = `We have sent a mock OTP code to your registered mobile (${formattedPhone}). Enter 123456 to simulate.`;
-                
-                opinionDetailsStep.style.display = 'none';
-                opinionOtpStep.style.display = 'block';
-                triggerSystemToast(`Mock verification code sent to ${formattedPhone}`);
-            }, 800);
-        });
-
-        // Click Verify OTP
-        btnOpinionVerifyOtp.addEventListener('click', async () => {
-            const otpVal = opinionAuthOtp.value.trim();
-            if (!otpVal || otpVal.length !== 6) {
-                alert('Verification code must be exactly 6 digits.');
-                return;
-            }
-
-            btnOpinionVerifyOtp.innerText = 'Verifying...';
-            btnOpinionVerifyOtp.disabled = true;
-
-            setTimeout(() => {
-                btnOpinionVerifyOtp.innerText = 'Verify & Unlock';
-                btnOpinionVerifyOtp.disabled = false;
-
-                if (otpVal !== '123456') {
-                    alert('Invalid verification code. Enter 123456 to simulate.');
+                // Check case-insensitive fuzzy match or exact match on name
+                if (matched.name.toLowerCase().trim() !== nameVal.toLowerCase()) {
+                    opinionErrorBanner.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <span>Name does not match the registered graduate details for this Roll.</span>
+                    `;
+                    opinionErrorBanner.style.display = 'flex';
                     return;
                 }
 
                 // Match user session details
+                activeVerifiedUser = matched;
                 opinionVerifiedStudentName.innerText = activeVerifiedUser.name;
                 opinionVerifiedStudentRoll.style.display = 'inline-block';
                 opinionVerifiedStudentRoll.innerText = `Roll: ${activeVerifiedUser.roll} (${activeVerifiedUser.shift} Shift)`;
@@ -3006,14 +3291,12 @@
                 btnPostOpinionSubmit.disabled = false;
 
                 triggerSystemToast(`Session unlocked for ${activeVerifiedUser.name}`);
-            }, 1000);
+            }, 800);
         });
 
         // Log out
         btnOpinionLogout.addEventListener('click', () => {
             activeVerifiedUser = null;
-            tempNameVal = '';
-            tempRollVal = '';
 
             // Relock UI
             opinionBlockerOverlay.classList.remove('unlocked');
@@ -3026,9 +3309,7 @@
 
             opinionAuthName.value = '';
             opinionAuthRoll.value = '';
-            opinionAuthOtp.value = '';
-            opinionDetailsStep.style.display = 'block';
-            opinionOtpStep.style.display = 'none';
+            opinionErrorBanner.style.display = 'none';
 
             triggerSystemToast('Account session locked successfully.');
         });
@@ -3137,8 +3418,15 @@
 
         btnAdminAuthSubmit.addEventListener('click', () => {
             const passcode = adminPasscode.value.trim();
+            const errorBanner = document.getElementById('admin-error-banner');
+            errorBanner.style.display = 'none';
+
             if (passcode !== 'admin123') {
-                alert('Access Denied. Invalid master password passcode.');
+                errorBanner.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span>Access Denied. Invalid master passcode.</span>
+                `;
+                errorBanner.style.display = 'flex';
                 adminPasscode.value = '';
                 return;
             }
@@ -3263,6 +3551,7 @@
             document.getElementById('edit-original-roll').value = roll;
             document.getElementById('edit-name-input').value = name;
             document.getElementById('edit-tshirt-select').value = tshirt;
+            document.getElementById('edit-error-banner').style.display = 'none';
 
             editModal.classList.add('active');
         };
@@ -3275,9 +3564,15 @@
             const roll = document.getElementById('edit-original-roll').value;
             const updatedName = document.getElementById('edit-name-input').value.trim();
             const updatedTshirt = document.getElementById('edit-tshirt-select').value;
+            const errorBanner = document.getElementById('edit-error-banner');
+            errorBanner.style.display = 'none';
 
             if (!updatedName) {
-                alert('Name cannot be empty.');
+                errorBanner.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span>Name cannot be empty.</span>
+                `;
+                errorBanner.style.display = 'flex';
                 return;
             }
 
@@ -3295,6 +3590,7 @@
             document.getElementById('delete-target-roll').value = roll;
             document.getElementById('delete-roll-display').innerText = roll;
             document.getElementById('delete-admin-password-input').value = '';
+            document.getElementById('delete-error-banner').style.display = 'none';
 
             deleteModal.classList.add('active');
         };
@@ -3306,9 +3602,15 @@
         btnDeleteConfirm.addEventListener('click', async () => {
             const roll = document.getElementById('delete-target-roll').value;
             const password = document.getElementById('delete-admin-password-input').value.trim();
+            const errorBanner = document.getElementById('delete-error-banner');
+            errorBanner.style.display = 'none';
 
             if (password !== 'admin123') {
-                alert('Action Denied. Invalid admin password.');
+                errorBanner.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span>Action Denied. Invalid admin password.</span>
+                `;
+                errorBanner.style.display = 'flex';
                 return;
             }
 
@@ -3318,41 +3620,148 @@
             updateAdminDashboardTables();
         });
 
-        // Export registrations table to CSV format
-        document.getElementById('btn-admin-export-csv').addEventListener('click', async () => {
+        // Export registrations table to Excel
+        document.getElementById('btn-admin-export-excel').addEventListener('click', async () => {
             const list = await AppDB.getRegistrations();
             if (list.length === 0) {
-                alert('No data to export.');
+                triggerSystemToast('No data to export.');
                 return;
             }
 
-            let csvStr = "data:text/csv;charset=utf-8,";
-            csvStr += "Time Stamp,Student Name,Board Roll,Email Address,Mobile Number,Shift,Jersey Size,T-Shirt Size,Payment ID,Transaction ID,Status\n";
+            let tableHtml = '<table border="1"><tr>';
+            tableHtml += '<th style="background-color: #f1f5f9;">Time Stamp</th>';
+            tableHtml += '<th style="background-color: #f1f5f9;">Student Name</th>';
+            tableHtml += '<th style="background-color: #f1f5f9;">Board Roll</th>';
+            tableHtml += '<th style="background-color: #f1f5f9;">Email Address</th>';
+            tableHtml += '<th style="background-color: #f1f5f9;">Mobile Number</th>';
+            tableHtml += '<th style="background-color: #f1f5f9;">Shift</th>';
+            tableHtml += '<th style="background-color: #f1f5f9;">Jersey Size</th>';
+            tableHtml += '<th style="background-color: #f1f5f9;">T-Shirt Size</th>';
+            tableHtml += '<th style="background-color: #f1f5f9;">Payment ID</th>';
+            tableHtml += '<th style="background-color: #f1f5f9;">Transaction ID</th>';
+            tableHtml += '<th style="background-color: #f1f5f9;">Status</th>';
+            tableHtml += '</tr>';
 
             list.forEach(row => {
-                const csvRow = [
-                    row.timestamp,
-                    `"${row.name.replace(/"/g, '""')}"`,
-                    row.roll,
-                    `"${row.email.replace(/"/g, '""')}"`,
-                    `"${(row.phone || '').replace(/"/g, '""')}"`,
-                    row.shift,
-                    row.jersey,
-                    row.tshirt,
-                    row.payId,
-                    row.txid,
-                    "Verified"
-                ].join(",");
-                csvStr += csvRow + "\n";
+                tableHtml += `<tr>`;
+                tableHtml += `<td>${row.timestamp}</td>`;
+                tableHtml += `<td>${row.name}</td>`;
+                tableHtml += `<td>${row.roll}</td>`;
+                tableHtml += `<td>${row.email}</td>`;
+                tableHtml += `<td>${row.phone || ''}</td>`;
+                tableHtml += `<td>${row.shift} Shift</td>`;
+                tableHtml += `<td>${row.jersey}</td>`;
+                tableHtml += `<td>${row.tshirt}</td>`;
+                tableHtml += `<td>${row.payId}</td>`;
+                tableHtml += `<td>${row.txid}</td>`;
+                tableHtml += `<td>Verified</td>`;
+                tableHtml += `</tr>`;
             });
+            tableHtml += '</table>';
 
-            const encodedUri = encodeURI(csvStr);
-            const dLink = document.createElement('a');
-            dLink.setAttribute('href', encodedUri);
-            dLink.setAttribute('download', 'BPI26_Farewell_Student_Logs.csv');
-            document.body.appendChild(dLink);
-            dLink.click();
-            document.body.removeChild(dLink);
+            const excelFile = `
+              <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+              <head>
+                <meta charset="utf-8">
+                <!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Registrations</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+              </head>
+              <body>${tableHtml}</body>
+              </html>
+            `;
+
+            const blob = new Blob([excelFile], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `BPI26_Farewell_Registrations_${Date.now()}.xls`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            triggerSystemToast('Excel sheet downloaded successfully.');
+        });
+
+        // Export registrations table to PDF
+        document.getElementById('btn-admin-export-pdf').addEventListener('click', async () => {
+            const list = await AppDB.getRegistrations();
+            if (list.length === 0) {
+                triggerSystemToast('No data to export.');
+                return;
+            }
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Electronics Farewell 2026 - Registrations DB</title>
+                    <style>
+                        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 30px; color: #1e293b; background: #ffffff; }
+                        .header-container { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #0f172a; padding-bottom: 15px; margin-bottom: 25px; }
+                        .logo-text { font-size: 20px; font-weight: 800; color: #0f172a; }
+                        .logo-text span { color: #64748b; font-weight: 400; }
+                        .report-title { text-align: right; }
+                        .report-title h1 { margin: 0; font-size: 18px; color: #0f172a; }
+                        .report-title p { margin: 4px 0 0 0; font-size: 11px; color: #64748b; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 10px; }
+                        th, td { border: 1px solid #e2e8f0; padding: 8px 10px; text-align: left; }
+                        th { background-color: #f8fafc; color: #0f172a; font-weight: 700; text-transform: uppercase; font-size: 8px; letter-spacing: 0.5px; }
+                        tr:nth-child(even) { background-color: #f8fafc; }
+                        .footer { margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 15px; display: flex; justify-content: space-between; font-size: 9px; color: #64748b; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header-container">
+                        <div class="logo-text">BPI<span>Electronics</span></div>
+                        <div class="report-title">
+                            <h1>Registrations Database</h1>
+                            <p>Total Registered Graduates: ${list.length}</p>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time Stamp</th>
+                                <th>Student Name</th>
+                                <th>Board Roll</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Shift</th>
+                                <th>Jersey</th>
+                                <th>T-Shirt</th>
+                                <th>Payment ID</th>
+                                <th>TXID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${list.map(row => `
+                                <tr>
+                                    <td>${row.timestamp}</td>
+                                    <td>${row.name}</td>
+                                    <td>${row.roll}</td>
+                                    <td>${row.email}</td>
+                                    <td>${row.phone || ''}</td>
+                                    <td>${row.shift} Shift</td>
+                                    <td>${row.jersey}</td>
+                                    <td>${row.tshirt}</td>
+                                    <td>${row.payId}</td>
+                                    <td>${row.txid}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    <div class="footer">
+                        <span>Report Generated: ${new Date().toLocaleString()}</span>
+                        <span>Joint batch assembly initiative. Organized with ♥</span>
+                    </div>
+                    <script>
+                        window.onload = function() {
+                            window.print();
+                            setTimeout(function() { window.close(); }, 500);
+                        };
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
         });
 
         // ----------------------------------------------------
