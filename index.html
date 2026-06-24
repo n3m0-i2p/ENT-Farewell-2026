@@ -1610,6 +1610,26 @@
             .manifesto-title { font-size: 1.8rem; }
             .wizard-container { padding: 25px 20px; }
             .step-node .node-label { display: none; }
+
+            /* Premium mobile responsiveness spacing */
+            .shift-selection-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .selection-grid {
+                gap: 8px;
+            }
+            .grid-item-btn {
+                padding: 11px 4px;
+                font-size: 0.82rem;
+            }
+            .shift-card {
+                padding: 12px 14px;
+            }
+            .shift-card-icon {
+                width: 34px;
+                height: 34px;
+            }
         }
 
         /* Glowing post animation */
@@ -1920,6 +1940,11 @@
                         <div class="form-group">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                                 <label class="form-label" style="margin-bottom: 0;">Academic Shift</label>
+                                <div id="err-stu-shift" class="inline-error-msg">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    Academic Shift selection is required.
+                                </div>
+                            </div>
                             <div class="shift-selection-grid">
                                 <div class="shift-card" data-shift="1st">
                                     <div class="shift-card-icon">
@@ -1944,11 +1969,6 @@
                                     <div class="shift-card-badge">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
                                     </div>
-                                </div>
-                            </div>
-                                <div id="err-stu-shift" class="inline-error-msg">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                    Academic Shift selection is required.
                                 </div>
                             </div>
                         </div>
