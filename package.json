@@ -1,0 +1,13 @@
+{
+  "name": "campus-farewell-2026",
+  "version": "1.0.0",
+  "description": "Electronics Farewell 2026 registration portal backend",
+  "main": "index.html",
+  "dependencies": {
+    "firebase-admin": "^11.11.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "echo 'No build step required'"
+  }
+}

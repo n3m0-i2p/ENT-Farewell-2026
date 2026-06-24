@@ -2763,64 +2763,105 @@
         // 1. OFFLINE CLIENT-SIDE STORAGE STATE ENGINE
         // ----------------------------------------------------
         // DB Abstraction wrapper methods using localStorage for Vercel offline demo
+        let adminToken = localStorage.getItem('admin_passcode') || '';
+
         const AppDB = {
             async addRegistration(record) {
-                const db = JSON.parse(localStorage.getItem('ent_farewell_registrations') || '[]');
-                const filtered = db.filter(r => String(r.roll) !== String(record.roll));
-                filtered.push(record);
-                localStorage.setItem('ent_farewell_registrations', JSON.stringify(filtered));
-                await AppDB.addSystemLog(`Registration Confirmed for Roll ${record.roll}`);
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(record)
+                });
+                if (!res.ok) {
+                    const data = await res.json();
+                    throw new Error(data.message || 'Registration failed');
+                }
+                return await res.json();
             },
 
             async getRegistrations() {
-                return JSON.parse(localStorage.getItem('ent_farewell_registrations') || '[]');
+                const res = await fetch('/api/admin-registrations', {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                if (!res.ok) {
+                    throw new Error('Failed to fetch registrations. Session might have expired.');
+                }
+                return await res.json();
             },
 
             async editRegistration(roll, updatedFields) {
-                const db = await AppDB.getRegistrations();
-                const updated = db.map(item => {
-                    if (String(item.roll) === String(roll)) {
-                        return { ...item, ...updatedFields };
-                    }
-                    return item;
+                const res = await fetch('/api/admin-edit-registration', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${adminToken}`
+                    },
+                    body: JSON.stringify({ roll, ...updatedFields })
                 });
-                localStorage.setItem('ent_farewell_registrations', JSON.stringify(updated));
-                await AppDB.addSystemLog(`Admin Edited Record ${roll}`);
+                if (!res.ok) {
+                    const data = await res.json();
+                    throw new Error(data.message || 'Failed to edit registration');
+                }
+                return await res.json();
             },
 
             async deleteRegistration(roll) {
-                const db = await AppDB.getRegistrations();
-                const filtered = db.filter(r => String(r.roll) !== String(roll));
-                localStorage.setItem('ent_farewell_registrations', JSON.stringify(filtered));
-                await AppDB.addSystemLog(`Admin Deleted Record ${roll}`);
+                const res = await fetch('/api/admin-delete-registration', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${adminToken}`
+                    },
+                    body: JSON.stringify({ roll })
+                });
+                if (!res.ok) {
+                    const data = await res.json();
+                    throw new Error(data.message || 'Failed to delete registration');
+                }
+                return await res.json();
             },
 
             async addOpinion(opinion) {
-                const ops = JSON.parse(localStorage.getItem('ent_farewell_opinions') || '[]');
-                ops.push(opinion);
-                localStorage.setItem('ent_farewell_opinions', JSON.stringify(ops));
-                await AppDB.addSystemLog(`Opinion Posted by ${opinion.name} (Roll: ${opinion.roll})`);
+                const res = await fetch('/api/opinions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(opinion)
+                });
+                if (!res.ok) {
+                    const data = await res.json();
+                    throw new Error(data.message || 'Failed to post thought');
+                }
+                return await res.json();
             },
 
             async getOpinions() {
-                const ops = JSON.parse(localStorage.getItem('ent_farewell_opinions') || '[]');
-                // Sort desc
-                return ops.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                const res = await fetch('/api/opinions');
+                if (!res.ok) {
+                    throw new Error('Failed to load opinions.');
+                }
+                return await res.json();
             },
 
             async addSystemLog(message) {
-                const log = {
-                    message: message,
-                    timestamp: new Date().toLocaleString()
-                };
-                const logs = JSON.parse(localStorage.getItem('ent_farewell_logs') || '[]');
-                logs.push(log);
-                localStorage.setItem('ent_farewell_logs', JSON.stringify(logs));
+                console.log(`[System Log logged on backend]: ${message}`);
             },
 
             async getSystemLogs() {
-                const logs = JSON.parse(localStorage.getItem('ent_farewell_logs') || '[]');
-                return [...logs].reverse(); // Latest first
+                const res = await fetch('/api/admin-logs', {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+                if (!res.ok) {
+                    throw new Error('Failed to load system logs.');
+                }
+                return await res.json();
+            },
+
+            async getRegistration(roll) {
+                const res = await fetch(`/api/registration?roll=${roll}`);
+                if (!res.ok) {
+                    throw new Error('Registration not found.');
+                }
+                return await res.json();
             }
         };
 
@@ -3060,8 +3101,8 @@
                 wizardCurrentStep++;
                 updateWizardUI();
             } else {
-                // Trigger Simulated bKash checkout
-                triggerBkashCheckoutFlow();
+                // Trigger Real RupantorPay checkout flow
+                triggerRealCheckoutFlow();
             }
         });
 
@@ -3498,8 +3539,12 @@
             btnOpinionVerifyDirect.innerText = 'Verifying...';
             btnOpinionVerifyDirect.disabled = true;
 
-            const registrations = await AppDB.getRegistrations();
-            const matched = registrations.find(r => String(r.roll) === String(rollVal));
+            let matched = null;
+            try {
+                matched = await AppDB.getRegistration(rollVal);
+            } catch (err) {
+                console.error("Verification error:", err);
+            }
 
             setTimeout(() => {
                 btnOpinionVerifyDirect.innerText = 'Verify & Unlock Wall';
@@ -3508,14 +3553,23 @@
                 if (!matched) {
                     opinionErrorBanner.innerHTML = `
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                        <span>Board Roll not found. Please register in the Farewell Portal first!</span>
+                        <span>Board Roll not found. Please register and complete payment first!</span>
+                    `;
+                    opinionErrorBanner.style.display = 'flex';
+                    return;
+                }
+
+                if (matched.status !== 'Paid') {
+                    opinionErrorBanner.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <span>Please complete your registration payment before posting.</span>
                     `;
                     opinionErrorBanner.style.display = 'flex';
                     return;
                 }
 
                 // Check case-insensitive fuzzy match or exact match on name
-                if (matched.name.toLowerCase().trim() !== nameVal.toLowerCase()) {
+                if (matched.name.toLowerCase().trim() !== nameVal.toLowerCase().trim()) {
                     opinionErrorBanner.innerHTML = `
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                         <span>Name does not match the registered graduate details for this Roll.</span>
@@ -3665,31 +3719,69 @@
         const btnAdminAuthSubmit = document.getElementById('btn-admin-auth-submit');
         const adminPasscode = document.getElementById('admin-passcode-input');
 
-        btnAdminAuthSubmit.addEventListener('click', () => {
+        btnAdminAuthSubmit.addEventListener('click', async () => {
             const passcode = adminPasscode.value.trim();
             const errorBanner = document.getElementById('admin-error-banner');
             errorBanner.style.display = 'none';
 
-            if (passcode !== 'admin123') {
+            if (!passcode) {
                 errorBanner.innerHTML = `
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                    <span>Access Denied. Invalid master passcode.</span>
+                    <span>Please enter the master passcode.</span>
                 `;
                 errorBanner.style.display = 'flex';
-                adminPasscode.value = '';
                 return;
             }
 
-            adminAuthPaneBox.style.display = 'none';
-            adminDashboardWrapper.classList.add('unlocked');
+            try {
+                const res = await fetch('/api/admin-auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ passcode })
+                });
+                const data = await res.json();
 
-            // Default load registrations
-            updateAdminDashboardTables();
+                if (!res.ok || !data.success) {
+                    errorBanner.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <span>${escapeHTML(data.message || 'Access Denied. Invalid master passcode.')}</span>
+                    `;
+                    errorBanner.style.display = 'flex';
+                    adminPasscode.value = '';
+                    return;
+                }
+
+                adminToken = data.token;
+                localStorage.setItem('admin_passcode', adminToken);
+
+                adminAuthPaneBox.style.display = 'none';
+                adminDashboardWrapper.classList.add('unlocked');
+
+                // Default load registrations
+                updateAdminDashboardTables();
+            } catch (err) {
+                console.error('Admin auth request failed:', err);
+                errorBanner.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span>Failed to connect to authentication server.</span>
+                `;
+                errorBanner.style.display = 'flex';
+            }
         });
 
-        function checkAdminDashboardAccess() {
-            if (adminDashboardWrapper.classList.contains('unlocked')) {
-                updateAdminDashboardTables();
+        async function checkAdminDashboardAccess() {
+            if (adminToken) {
+                try {
+                    await updateAdminDashboardTables();
+                    adminAuthPaneBox.style.display = 'none';
+                    adminDashboardWrapper.classList.add('unlocked');
+                } catch (e) {
+                    adminToken = '';
+                    localStorage.removeItem('admin_passcode');
+                    adminAuthPaneBox.style.display = 'block';
+                    adminDashboardWrapper.classList.remove('unlocked');
+                    adminPasscode.value = '';
+                }
             } else {
                 adminAuthPaneBox.style.display = 'block';
                 adminDashboardWrapper.classList.remove('unlocked');
@@ -3867,7 +3959,7 @@
             const errorBanner = document.getElementById('delete-error-banner');
             errorBanner.style.display = 'none';
 
-            if (password !== 'admin123') {
+            if (password !== adminToken) {
                 errorBanner.innerHTML = `
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                     <span>Action Denied. Invalid admin password.</span>
@@ -3876,10 +3968,17 @@
                 return;
             }
 
-            await AppDB.deleteRegistration(roll);
-
-            deleteModal.classList.remove('active');
-            updateAdminDashboardTables();
+            try {
+                await AppDB.deleteRegistration(roll);
+                deleteModal.classList.remove('active');
+                updateAdminDashboardTables();
+            } catch (err) {
+                errorBanner.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span>Failed to delete: ${escapeHTML(err.message)}</span>
+                `;
+                errorBanner.style.display = 'flex';
+            }
         });
 
         // Export registrations table to Excel
@@ -4096,6 +4195,106 @@
 
         // Initialize countdown on script load
         initRegistrationCountdown();
+
+        // ----------------------------------------------------
+        // 12. REAL BKASH/RUPANTORPAY CHECKOUT FLOW
+        // ----------------------------------------------------
+        async function triggerRealCheckoutFlow() {
+            const name = document.getElementById('stu-name-input').value.trim();
+            const roll = document.getElementById('stu-roll-input').value.trim();
+            const email = document.getElementById('stu-email-input').value.trim();
+            const phone = document.getElementById('stu-phone-input').value.trim();
+            const jerseyName = document.getElementById('input-jersey-custom-name').value.trim();
+
+            const record = {
+                name: name,
+                roll: roll,
+                email: email,
+                phone: phone,
+                shift: selectedShift,
+                jersey: selectedJerseySize,
+                tshirt: selectedTshirtSize,
+                jerseyName: jerseyName || 'NONE'
+            };
+
+            // Show bKash modal loader view to transition
+            bkashModal.classList.add('active');
+            bkashActionsRow.style.display = 'none'; // hide buttons
+            
+            // Display the loader pane in the modal
+            bkashPanesList.forEach(p => p.classList.remove('active'));
+            const loaderPane = document.getElementById('bkash-pane-loader');
+            loaderPane.classList.add('active');
+            const loaderMsg = loaderPane.querySelector('p');
+            if (loaderMsg) loaderMsg.innerText = 'Connecting to secure bKash payment gateway...';
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(record)
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to initialize payment.');
+                }
+
+                if (data.payment_url) {
+                    // Redirect to payment gateway URL
+                    window.location.href = data.payment_url;
+                } else {
+                    throw new Error('Payment gateway did not return a valid payment URL.');
+                }
+            } catch (err) {
+                console.error('Checkout failed:', err);
+                triggerSystemToast(`Error: ${err.message}`);
+                // Close bkash modal
+                bkashModal.classList.remove('active');
+            }
+        }
+
+        // ----------------------------------------------------
+        // 13. PAYMENT REDIRECT RESOLVER
+        // ----------------------------------------------------
+        async function handlePaymentRedirect() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const paymentStatus = urlParams.get('payment_status');
+            const roll = urlParams.get('roll');
+
+            if (paymentStatus === 'success' && roll) {
+                try {
+                    triggerSystemToast("Fetching confirmed registration receipt...");
+                    const record = await AppDB.getRegistration(roll);
+
+                    if (record && record.status === 'Paid') {
+                        // Populate Receipt Popup details
+                        populateReceiptTicketHTML(record);
+                        // Open receipt modal
+                        document.getElementById('receipt-money-modal').classList.add('active');
+                        triggerSystemToast("Payment successfully completed!");
+                    } else {
+                        triggerSystemToast("Payment pending verification or records not found.");
+                    }
+                } catch (e) {
+                    console.error('Error handling redirect registration fetch:', e);
+                    triggerSystemToast("Failed to load registration ticket.");
+                }
+                
+                // Clear URL parameters to keep address clean
+                window.history.replaceState({}, document.title, window.location.pathname);
+            } else if (paymentStatus === 'cancel' || paymentStatus === 'failed') {
+                triggerSystemToast("Payment cancelled or failed. Please try again.");
+                window.history.replaceState({}, document.title, window.location.pathname);
+            } else if (paymentStatus === 'error') {
+                const message = urlParams.get('message') || 'Payment processing error.';
+                triggerSystemToast(`Error: ${message}`);
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+
+        // Run redirect handler
+        handlePaymentRedirect();
     </script>
 </body>
 </html>
