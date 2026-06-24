@@ -2079,6 +2079,18 @@
 
                         <div class="form-group">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <label class="form-label" style="margin-bottom: 0;">Customize Name on Jersey</label>
+                                <div id="err-jersey-custom-name" class="inline-error-msg">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    Letters, spaces, dots, and hyphens only (max 15).
+                                </div>
+                            </div>
+                            <input type="text" id="input-jersey-custom-name" class="form-input" placeholder="e.g. NAHIAN (Leave blank if not needed)" maxlength="15" style="text-transform: uppercase;">
+                            <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 5px;">Your name printed on the back of the jersey. Maximum 15 characters, A-Z only.</div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 35px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                                 <label class="form-label" style="margin-bottom: 0;">Select Premium Departmental Jersey Size</label>
                                 <div id="err-jersey-size" class="inline-error-msg">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -2140,6 +2152,10 @@
                             <div class="summary-row">
                                 <span class="summary-lbl">Premium Jersey Size</span>
                                 <span class="summary-val" id="summary-jersey">N/A</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="summary-lbl">Jersey Custom Name</span>
+                                <span class="summary-val" id="summary-jersey-name">N/A</span>
                             </div>
                             <div class="summary-row">
                                 <span class="summary-lbl">White T-Shirt Size</span>
@@ -2323,6 +2339,7 @@
                                     <th>Phone</th>
                                     <th>Shift</th>
                                     <th>Jersey</th>
+                                    <th>Jersey Name</th>
                                     <th>T-Shirt</th>
                                     <th>Payment ID</th>
                                     <th>TxID</th>
@@ -2332,7 +2349,7 @@
                             </thead>
                             <tbody id="admin-data-grid-body">
                                 <tr>
-                                    <td colspan="11" style="text-align: center; color: var(--text-muted);">No records registered.</td>
+                                    <td colspan="12" style="text-align: center; color: var(--text-muted);">No records registered.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -2490,6 +2507,10 @@
                             <span id="table-jersey" style="color: #0f172a; font-weight: 800;">N/A</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #64748b; font-weight: 600; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.8px;">Jersey Name</span>
+                            <span id="ticket-jersey-name" style="color: #0f172a; font-weight: 800;">NONE</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span style="color: #64748b; font-weight: 600; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.8px;">T-Shirt Size</span>
                             <span id="table-tshirt" style="color: #0f172a; font-weight: 800;">N/A</span>
                         </div>
@@ -2571,6 +2592,10 @@
                         <option value="XL">XL</option>
                         <option value="XXL">XXL</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Jersey Custom Name</label>
+                    <input type="text" id="edit-jersey-name-input" class="form-input" maxlength="15" style="text-transform: uppercase;">
                 </div>
             </div>
             <div class="admin-dialog-footer">
@@ -2817,6 +2842,7 @@
                 document.getElementById('summary-phone').innerText = document.getElementById('stu-phone-input').value.trim();
                 document.getElementById('summary-shift').innerText = `${selectedShift} Shift`;
                 document.getElementById('summary-jersey').innerText = selectedJerseySize;
+                document.getElementById('summary-jersey-name').innerText = document.getElementById('input-jersey-custom-name').value.trim().toUpperCase() || 'NONE';
                 document.getElementById('summary-tshirt').innerText = selectedTshirtSize;
             } else {
                 btnWizardBack.style.visibility = 'visible';
@@ -2879,6 +2905,7 @@
             if (wizardCurrentStep === 3) {
                 // Validation checks for size selections
                 document.querySelectorAll('#pane-3 .inline-error-msg').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('#pane-3 .form-input').forEach(el => el.classList.remove('input-error-border'));
                 const sizesErrorBanner = document.getElementById('sizes-error-banner');
                 sizesErrorBanner.style.display = 'none';
 
@@ -2893,10 +2920,18 @@
                     hasErrors = true;
                 }
 
+                // Custom jersey name validation
+                const jerseyNameVal = document.getElementById('input-jersey-custom-name').value.trim();
+                if (jerseyNameVal && !/^[A-Za-z. -]+$/.test(jerseyNameVal)) {
+                    document.getElementById('input-jersey-custom-name').classList.add('input-error-border');
+                    document.getElementById('err-jersey-custom-name').style.display = 'flex';
+                    hasErrors = true;
+                }
+
                 if (hasErrors) {
                     sizesErrorBanner.innerHTML = `
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                        <span>Please select both Jersey and T-Shirt sizes before proceeding.</span>
+                        <span>Please correct the highlighted selection and customization errors below.</span>
                     `;
                     sizesErrorBanner.style.display = 'flex';
                     return;
@@ -3025,6 +3060,7 @@
                     shift: selectedShift,
                     jersey: selectedJerseySize,
                     tshirt: selectedTshirtSize,
+                    jerseyName: document.getElementById('input-jersey-custom-name').value.trim().toUpperCase() || 'NONE',
                     payId: payId,
                     txid: txid,
                     rcptId: rcptId,
@@ -3051,6 +3087,11 @@
                 document.getElementById('stu-roll-input').value = '';
                 document.getElementById('stu-email-input').value = '';
                 document.getElementById('stu-phone-input').value = '';
+                document.getElementById('input-jersey-custom-name').value = '';
+                selectedJerseySize = null;
+                selectedTshirtSize = null;
+                selectedShift = null;
+                document.querySelectorAll('.shift-card, .grid-item-btn').forEach(btn => btn.classList.remove('active'));
                 wizardCurrentStep = 1;
                 updateWizardUI();
             }, 2000);
@@ -3065,6 +3106,7 @@
             document.getElementById('ticket-phone').innerText = record.phone || 'N/A';
             document.getElementById('ticket-shift').innerText = record.shift ? `${record.shift} Shift` : '1st Shift';
             document.getElementById('ticket-jersey').innerText = record.jersey;
+            document.getElementById('ticket-jersey-name').innerText = record.jerseyName || 'NONE';
             document.getElementById('ticket-tshirt').innerText = record.tshirt;
             document.getElementById('table-jersey').innerText = record.jersey;
             document.getElementById('table-tshirt').innerText = record.tshirt;
@@ -3087,6 +3129,7 @@
             const phone = document.getElementById('ticket-phone').innerText;
             const shift = document.getElementById('ticket-shift').innerText;
             const jersey = document.getElementById('table-jersey').innerText;
+            const jerseyName = document.getElementById('ticket-jersey-name').innerText;
             const tshirt = document.getElementById('table-tshirt').innerText;
             const bkashNo = document.getElementById('ticket-bkash-no').innerText;
             const payId = document.getElementById('ticket-payment-id').innerText;
@@ -3196,6 +3239,7 @@
             // Draw Payment details (labels on left, values on right)
             const paymentData = [
                 { label: 'JERSEY SIZE', val: jersey, bold: true, color: '#0f172a' },
+                { label: 'JERSEY NAME', val: jerseyName, bold: true, color: '#0f172a' },
                 { label: 'T-SHIRT SIZE', val: tshirt, bold: true, color: '#0f172a' },
                 { label: 'BKASH NUMBER', val: bkashNo, bold: true, color: '#0f172a' },
                 { label: 'PAYMENT ID', val: payId, bold: false, color: '#64748b', isPayId: true },
@@ -3568,7 +3612,7 @@
             const tbody = document.getElementById('admin-data-grid-body');
 
             if (list.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="11" style="text-align: center; color: var(--text-muted);">No records registered.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="12" style="text-align: center; color: var(--text-muted);">No records registered.</td></tr>`;
                 return;
             }
 
@@ -3582,6 +3626,7 @@
                     <td style="color: var(--text-muted);">${escapeHTML(row.phone || 'N/A')}</td>
                     <td>${row.shift}</td>
                     <td style="font-weight: bold;">${row.jersey}</td>
+                    <td style="font-weight: bold; color: var(--text-primary);">${escapeHTML(row.jerseyName || 'NONE')}</td>
                     <td style="font-weight: bold;">${row.tshirt}</td>
                     <td style="color: var(--text-muted); font-size: 0.8rem;">${row.payId}</td>
                     <td style="color: var(--text-muted); font-size: 0.8rem; font-weight: bold;">${row.txid}</td>
@@ -3589,7 +3634,7 @@
                     <td class="kebab-cell">
                         <button type="button" class="btn-kebab-menu" onclick="toggleKebabDropdown(event, '${row.roll}')">&#8942;</button>
                         <div class="kebab-dropdown" id="kebab-${row.roll}">
-                            <button type="button" class="kebab-item-btn" onclick="triggerEditRecord('${row.roll}', '${escapeJS(row.name)}', '${row.tshirt}')">Edit</button>
+                            <button type="button" class="kebab-item-btn" onclick="triggerEditRecord('${row.roll}', '${escapeJS(row.name)}', '${row.tshirt}', '${escapeJS(row.jerseyName || '')}')">Edit</button>
                             <button type="button" class="kebab-item-btn delete-action" onclick="triggerDeleteRecord('${row.roll}')">Delete</button>
                         </div>
                     </td>
@@ -3634,10 +3679,11 @@
         const btnDeleteConfirm = document.getElementById('btn-delete-modal-confirm');
 
         // EDIT RECORD TRIGGER
-        window.triggerEditRecord = function(roll, name, tshirt) {
+        window.triggerEditRecord = function(roll, name, tshirt, jerseyName) {
             document.getElementById('edit-original-roll').value = roll;
             document.getElementById('edit-name-input').value = name;
             document.getElementById('edit-tshirt-select').value = tshirt;
+            document.getElementById('edit-jersey-name-input').value = jerseyName || '';
             document.getElementById('edit-error-banner').style.display = 'none';
 
             editModal.classList.add('active');
@@ -3651,6 +3697,7 @@
             const roll = document.getElementById('edit-original-roll').value;
             const updatedName = document.getElementById('edit-name-input').value.trim();
             const updatedTshirt = document.getElementById('edit-tshirt-select').value;
+            const updatedJerseyName = document.getElementById('edit-jersey-name-input').value.trim().toUpperCase();
             const errorBanner = document.getElementById('edit-error-banner');
             errorBanner.style.display = 'none';
 
@@ -3663,9 +3710,19 @@
                 return;
             }
 
+            if (updatedJerseyName && !/^[A-Za-z. -]+$/.test(updatedJerseyName)) {
+                errorBanner.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span>Jersey name is invalid (letters, dots, hyphens only, max 15).</span>
+                `;
+                errorBanner.style.display = 'flex';
+                return;
+            }
+
             await AppDB.editRegistration(roll, {
                 name: updatedName,
-                tshirt: updatedTshirt
+                tshirt: updatedTshirt,
+                jerseyName: updatedJerseyName || 'NONE'
             });
 
             editModal.classList.remove('active');
@@ -3723,6 +3780,7 @@
             tableHtml += '<th style="background-color: #f1f5f9;">Mobile Number</th>';
             tableHtml += '<th style="background-color: #f1f5f9;">Shift</th>';
             tableHtml += '<th style="background-color: #f1f5f9;">Jersey Size</th>';
+            tableHtml += '<th style="background-color: #f1f5f9;">Jersey Name</th>';
             tableHtml += '<th style="background-color: #f1f5f9;">T-Shirt Size</th>';
             tableHtml += '<th style="background-color: #f1f5f9;">Payment ID</th>';
             tableHtml += '<th style="background-color: #f1f5f9;">Transaction ID</th>';
@@ -3738,6 +3796,7 @@
                 tableHtml += `<td>${row.phone || ''}</td>`;
                 tableHtml += `<td>${row.shift} Shift</td>`;
                 tableHtml += `<td>${row.jersey}</td>`;
+                tableHtml += `<td>${row.jerseyName || 'NONE'}</td>`;
                 tableHtml += `<td>${row.tshirt}</td>`;
                 tableHtml += `<td>${row.payId}</td>`;
                 tableHtml += `<td>${row.txid}</td>`;
@@ -3813,6 +3872,7 @@
                                 <th>Mobile</th>
                                 <th>Shift</th>
                                 <th>Jersey</th>
+                                <th>Jersey Name</th>
                                 <th>T-Shirt</th>
                                 <th>Payment ID</th>
                                 <th>TXID</th>
@@ -3828,6 +3888,7 @@
                                     <td>${row.phone || ''}</td>
                                     <td>${row.shift} Shift</td>
                                     <td>${row.jersey}</td>
+                                    <td>${row.jerseyName || 'NONE'}</td>
                                     <td>${row.tshirt}</td>
                                     <td>${row.payId}</td>
                                     <td>${row.txid}</td>
