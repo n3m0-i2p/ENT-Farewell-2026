@@ -1786,6 +1786,91 @@
             opacity: 1;
             transform: scale(1);
         }
+
+        /* Tactile button click animation (Active Scale) */
+        button, 
+        .btn-premium, 
+        .admin-subtab-btn, 
+        .bkash-checkout-action-btn, 
+        .close-receipt-btn, 
+        .btn-kebab-menu, 
+        .kebab-item-btn, 
+        .menu-toggle {
+            transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+        }
+
+        button:active, 
+        .btn-premium:active, 
+        .admin-subtab-btn:active, 
+        .bkash-checkout-action-btn:active, 
+        .close-receipt-btn:active, 
+        .btn-kebab-menu:active, 
+        .kebab-item-btn:active, 
+        .menu-toggle:active {
+            transform: scale(0.95) !important;
+        }
+
+        /* Countdown Timer Styles */
+        .registration-countdown-container {
+            max-width: 420px;
+            margin: 0 auto 25px auto;
+            padding: 16px 20px;
+            background: var(--bg-accent);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+        }
+        .countdown-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .countdown-timer-grid {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 70px;
+            padding: 8px;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+        .countdown-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-variant-numeric: tabular-nums;
+            line-height: 1.2;
+        }
+        .countdown-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+        .countdown-expired {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--danger-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 0;
+        }
     </style>
 </head>
 <body>
@@ -1837,6 +1922,32 @@
 
                         <h1 class="manifesto-title" style="margin-top: 15px;">Farewell-2026</h1>
                         <div style="font-size: 0.95rem; font-weight: 600; color: var(--text-muted); letter-spacing: 1px; margin-top: 6px; margin-bottom: 20px;">Where we last met: Electronics 2022-23</div>
+
+                        <!-- Countdown Timer -->
+                        <div id="registration-countdown" class="registration-countdown-container">
+                            <div class="countdown-title">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--text-muted); margin-right: 4px; display: inline-block; vertical-align: middle;"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                                Registration Deadline Countdown
+                            </div>
+                            <div class="countdown-timer-grid">
+                                <div class="countdown-item">
+                                    <span id="countdown-days" class="countdown-value">00</span>
+                                    <span class="countdown-label">Days</span>
+                                </div>
+                                <div class="countdown-item">
+                                    <span id="countdown-hours" class="countdown-value">00</span>
+                                    <span class="countdown-label">Hours</span>
+                                </div>
+                                <div class="countdown-item">
+                                    <span id="countdown-mins" class="countdown-value">00</span>
+                                    <span class="countdown-label">Mins</span>
+                                </div>
+                                <div class="countdown-item">
+                                    <span id="countdown-secs" class="countdown-value">00</span>
+                                    <span class="countdown-label">Secs</span>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="manifesto-text-box" style="font-size: 0.95rem; line-height: 1.6; color: var(--text-muted); max-width: 720px; margin: 0 auto 30px auto; text-align: center;">
                             Welcome to the official registration hub for Electronics Farewell 2026. This portal is designed for the 2022–23 batch to secure their attendance and merchandise. Your registration includes the complete farewell package: the custom-tailored athletic jersey and the official white departure T-shirt. Let’s unite to wrap up our campus life in style.
@@ -3763,6 +3874,49 @@
                 logContainer.appendChild(row);
             });
         }
+
+        // ----------------------------------------------------
+        // 11. REGISTRATION COUNTDOWN TIMER
+        // ----------------------------------------------------
+        function initRegistrationCountdown() {
+            // Target Deadline: July 5, 2026, at 11:59 PM Bangladesh Time (GMT+6)
+            const targetTime = new Date("2026-07-05T23:59:00+06:00").getTime();
+
+            const daysEl = document.getElementById('countdown-days');
+            const hoursEl = document.getElementById('countdown-hours');
+            const minsEl = document.getElementById('countdown-mins');
+            const secsEl = document.getElementById('countdown-secs');
+            const containerEl = document.getElementById('registration-countdown');
+
+            function updateCountdown() {
+                const now = Date.now();
+                const difference = targetTime - now;
+
+                if (difference <= 0) {
+                    if (containerEl) {
+                        containerEl.innerHTML = `<div class="countdown-expired">Registration Closed</div>`;
+                    }
+                    clearInterval(countdownInterval);
+                    return;
+                }
+
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const secs = Math.floor((difference % (1000 * 60)) / 1000);
+
+                if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+                if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+                if (minsEl) minsEl.textContent = String(mins).padStart(2, '0');
+                if (secsEl) secsEl.textContent = String(secs).padStart(2, '0');
+            }
+
+            updateCountdown();
+            const countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
+        // Initialize countdown on script load
+        initRegistrationCountdown();
     </script>
 </body>
 </html>
