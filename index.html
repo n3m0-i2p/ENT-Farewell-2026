@@ -1634,7 +1634,7 @@
             color: #dc2626;
             font-size: 0.76rem;
             font-weight: 600;
-            margin-top: 5px;
+            margin-top: 0;
             display: none;
             align-items: center;
             gap: 5px;
@@ -1869,43 +1869,52 @@
                         <div id="details-error-banner" class="modal-warning-banner"></div>
 
                         <div class="form-group">
-                            <label class="form-label">Student Full Name</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <label class="form-label" style="margin-bottom: 0;">Student Full Name</label>
+                                <div id="err-stu-name" class="inline-error-msg">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    Full Name is required.
+                                </div>
+                            </div>
                             <input type="text" id="stu-name-input" class="form-input" placeholder="Enter your full name">
-                            <div id="err-stu-name" class="inline-error-msg">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                Full Name is required.
-                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Board Roll Number</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <label class="form-label" style="margin-bottom: 0;">Board Roll Number</label>
+                                <div id="err-stu-roll" class="inline-error-msg">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    Valid Board Roll is required (minimum 5 digits).
+                                </div>
+                            </div>
                             <input type="number" id="stu-roll-input" class="form-input" placeholder="e.g. 508493">
-                            <div id="err-stu-roll" class="inline-error-msg">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                Valid Board Roll is required (minimum 5 digits).
-                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Student Email Address</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <label class="form-label" style="margin-bottom: 0;">Student Email Address</label>
+                                <div id="err-stu-email" class="inline-error-msg">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    Please enter a valid Email Address.
+                                </div>
+                            </div>
                             <input type="email" id="stu-email-input" class="form-input" placeholder="e.g. name@student.com">
-                            <div id="err-stu-email" class="inline-error-msg">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                Please enter a valid Email Address.
-                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Mobile Number</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <label class="form-label" style="margin-bottom: 0;">Mobile Number</label>
+                                <div id="err-stu-phone" class="inline-error-msg">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    Please enter a valid 11-digit Mobile Number.
+                                </div>
+                            </div>
                             <input type="tel" id="stu-phone-input" class="form-input" placeholder="e.g. 01XXXXXXXXX" maxlength="11">
-                            <div id="err-stu-phone" class="inline-error-msg">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                Please enter a valid 11-digit Mobile Number.
-                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Academic Shift</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <label class="form-label" style="margin-bottom: 0;">Academic Shift</label>
                             <div class="shift-selection-grid">
                                 <div class="shift-card" data-shift="1st">
                                     <div class="shift-card-icon">
@@ -1932,9 +1941,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="err-stu-shift" class="inline-error-msg">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                Academic Shift selection is required.
+                                <div id="err-stu-shift" class="inline-error-msg">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    Academic Shift selection is required.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1947,7 +1957,13 @@
                         <div id="sizes-error-banner" class="modal-warning-banner"></div>
 
                         <div class="form-group">
-                            <label class="form-label">Select Premium Departmental Jersey Size</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <label class="form-label" style="margin-bottom: 0;">Select Premium Departmental Jersey Size</label>
+                                <div id="err-jersey-size" class="inline-error-msg">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    Jersey size selection is required.
+                                </div>
+                            </div>
                             <div class="selection-grid" id="jersey-sizes-grid">
                                 <div class="grid-item-btn" data-size="S">S</div>
                                 <div class="grid-item-btn" data-size="M">M</div>
@@ -1955,24 +1971,22 @@
                                 <div class="grid-item-btn" data-size="XL">XL</div>
                                 <div class="grid-item-btn" data-size="XXL">XXL</div>
                             </div>
-                            <div id="err-jersey-size" class="inline-error-msg">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                Jersey size selection is required.
-                            </div>
                         </div>
 
                         <div class="form-group" style="margin-top: 35px;">
-                            <label class="form-label">Select White Farewell T-Shirt Size</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <label class="form-label" style="margin-bottom: 0;">Select White Farewell T-Shirt Size</label>
+                                <div id="err-tshirt-size" class="inline-error-msg">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    T-Shirt size selection is required.
+                                </div>
+                            </div>
                             <div class="selection-grid" id="tshirt-sizes-grid">
                                 <div class="grid-item-btn" data-size="S">S</div>
                                 <div class="grid-item-btn" data-size="M">M</div>
                                 <div class="grid-item-btn" data-size="L">L</div>
                                 <div class="grid-item-btn" data-size="XL">XL</div>
                                 <div class="grid-item-btn" data-size="XXL">XXL</div>
-                            </div>
-                            <div id="err-tshirt-size" class="inline-error-msg">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                T-Shirt size selection is required.
                             </div>
                         </div>
                     </div>
@@ -2062,19 +2076,25 @@
                     <div class="opinion-auth-row" style="flex-direction: column; width: 100%; max-width: 400px; gap: 12px;">
                         <!-- Details Input Phase -->
                         <div id="opinion-details-step" style="width: 100%;">
-                            <div class="form-group" style="margin-bottom: 12px;">
-                                <input type="text" id="opinion-auth-name" class="form-input" placeholder="Enter your registered full name" style="margin-bottom: 0;">
-                                <div id="err-opinion-name" class="inline-error-msg">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                    Registered Full Name is required.
-                                </div>
-                            </div>
                             <div class="form-group" style="margin-bottom: 15px;">
-                                <input type="number" id="opinion-auth-roll" class="form-input" placeholder="Enter your board roll number" style="margin-bottom: 0;">
-                                <div id="err-opinion-roll" class="inline-error-msg">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                    Board Roll number is required.
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <label class="form-label" style="margin-bottom: 0; font-size: 0.72rem;">Registered Full Name</label>
+                                    <div id="err-opinion-name" class="inline-error-msg" style="font-size: 0.7rem;">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                        Required
+                                    </div>
                                 </div>
+                                <input type="text" id="opinion-auth-name" class="form-input" placeholder="Enter your registered name" style="margin-bottom: 0;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <label class="form-label" style="margin-bottom: 0; font-size: 0.72rem;">Board Roll Number</label>
+                                    <div id="err-opinion-roll" class="inline-error-msg" style="font-size: 0.7rem;">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                        Required
+                                    </div>
+                                </div>
+                                <input type="number" id="opinion-auth-roll" class="form-input" placeholder="Enter your board roll number" style="margin-bottom: 0;">
                             </div>
                             <button type="button" id="btn-opinion-verify-direct" class="btn-premium" style="width: 100%; height: 46px;">Verify & Unlock Wall</button>
                         </div>
